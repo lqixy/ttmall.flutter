@@ -1,0 +1,82 @@
+{
+    "adlist": [
+        {
+            "picurl": "https://timgs-v1.tongtongmall.com/d32456766bc044189860f77eb23dd11e?imageView2/4/quality/30",
+            "sort": "2",
+            "link": {
+                "type": "2",
+                "link": "https://m.tongtongmall.com/v/topic?topicid=huanjihf",
+                "parameter": ""
+            }
+        },
+        {
+            "picurl": "https://timgs-v1.tongtongmall.com/a7eac45284fa4a8db9f9ec90c2951db2?imageView2/4/quality/30",
+            "sort": "60",
+            "link": {
+                "type": "2",
+                "link": "https://m.tongtongmall.com/v/topic?topicid=yiselie",
+                "parameter": ""
+            }
+        }
+    ],
+    "menulist": [
+        {
+            "icon": "https://timgs-v1.tongtongmall.com/363c72ab9e604164a07bdadb29c92575?imageView2/4/quality/30",
+            "menu": "母婴用品",
+            "sort": "1",
+            "isshow": "1",
+            "link": {
+                "type": "2",
+                "link": "https://m.tongtongmall.com/place.html?page=%E6%AF%8D%E5%A9%B4%E5%88%86%E4%BC%9A%E5%9C%BA",
+                "parameter": ""
+            }
+        },
+        {
+            "icon": "https://timgs-v1.tongtongmall.com/d8ab0dec6d62457b8608d32ebb1a72ee?imageView2/4/quality/30",
+            "menu": "美妆护肤",
+            "sort": "2",
+            "isshow": "1",
+            "link": {
+                "type": "2",
+                "link": "https://m.tongtongmall.com/place.html?page=%E7%BE%8E%E5%A6%86%E5%88%86%E4%BC%9A%E5%9C%BA",
+                "parameter": ""
+            }
+        },
+        {
+            "icon": "https://timgs-v1.tongtongmall.com/d157150edfb34d3385d603323a8b1c48?imageView2/4/quality/30",
+            "menu": "居家日化",
+            "sort": "4",
+            "isshow": "1",
+            "link": {
+                "type": "2",
+                "link": "https://m.tongtongmall.com/place.html?page=%E6%97%A5%E5%8C%96%E5%88%86%E4%BC%9A%E5%9C%BA",
+                "parameter": "dde41651-4215-4999-8af4-e2629ba538b8"
+            }
+        },
+        {
+            "icon": "https://timgs-v1.tongtongmall.com/b022cf7d334a4ad08526b5fd4a760d1c?imageView2/4/quality/30",
+            "menu": "休闲美食",
+            "sort": "5",
+            "isshow": "1",
+            "link": {
+                "type": "2",
+                "link": "https://m.tongtongmall.com/v/topic?topicid=thefoods",
+                "parameter": ""
+            }
+        }
+    ],
+    "noticelist": [
+        {
+            "title": "美妆精选合集，点击查看~",
+            "link": {
+                "type": "2",
+                "link": "https://m.tongtongmall.com/v/topic?topicid=mmjh",
+                "parameter": ""
+            }
+        }
+    ],
+    "adtime": "20230426195044",
+    "menutime": "20230426195044",
+    "noticetime": "20230426195044",
+    "showtime": "20230426195044"
+}

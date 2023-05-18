@@ -1,0 +1,286 @@
+{
+    "list": [
+        {
+            "title": "宝宝奶粉",
+            "titleid": "a451af6a-44a8-4a60-917a-19f01d2223b8",
+            "data": [
+                {
+                    "brandid": "0f56901c-5459-45f3-bb9d-c0a6956c5821",
+                    "brand": "德国爱他美",
+                    "iconurl": "https://timgs-v1.tongtongmall.com/21d0103f6acd418baabdcb8093ae5f1b?imageView2/4/quality/30",
+                    "initial": "D"
+                },
+                {
+                    "brandid": "b4edcc32-afdf-4e37-8485-4776de346c78",
+                    "brand": "荷兰牛栏",
+                    "iconurl": "https://timgs-v1.tongtongmall.com/370941456331478a9d91c62f938b8fea?imageView2/4/quality/30",
+                    "initial": "H"
+                },
+                {
+                    "brandid": "cede5fac-15b1-415c-abff-fc890ab0dab9",
+                    "brand": "Hipp喜宝",
+                    "iconurl": "https://timgs-v1.tongtongmall.com/1473098f50ed43869f3b2578d835b2fc?imageView2/4/quality/30",
+                    "initial": "H"
+                }
+            ]
+        },
+        {
+            "title": "纸尿裤",
+            "titleid": "d2dedad6-b52b-4688-9fe8-e0e9ebeda37f",
+            "data": [
+                {
+                    "brandid": "a4edf2c9-8da0-4b79-8e09-1ad4880369b9",
+                    "brand": "大王",
+                    "iconurl": "https://timgs-v1.tongtongmall.com/a11b39367ae14d468011f0429b92ac97?imageView2/4/quality/30",
+                    "initial": "D"
+                },
+                {
+                    "brandid": "0e6c5b12-d325-4f67-93a1-78425bf05de6",
+                    "brand": "花王妙而舒",
+                    "iconurl": "https://timgs-v1.tongtongmall.com/d4a8a806a88e43899ee7b56470ac5b1f?imageView2/4/quality/30",
+                    "initial": "H"
+                },
+                {
+                    "brandid": "5bf29a81-091f-45b0-8356-17be9aff5b97",
+                    "brand": "尤妮佳",
+                    "iconurl": "https://timgs-v1.tongtongmall.com/c09901b403bc4546b26b370e05b28468?imageView2/4/quality/30",
+                    "initial": "Y"
+                }
+            ]
+        },
+        {
+            "title": "宝宝营养",
+            "titleid": "9650f067-518b-46bd-a6a6-683848593368",
+            "data": [
+                {
+                    "brandid": "9bd2400a-a282-4b20-91a3-1da6eeaa29da",
+                    "brand": "挪威小鱼NORDIC NATURALS",
+                    "iconurl": "https://timgs-v1.tongtongmall.com/8ac97fa3c1f3476cac91ebf87271f076?imageView2/4/quality/30",
+                    "initial": "N"
+                },
+                {
+                    "brandid": "f25ff756-3639-4716-ad58-9408989e74de",
+                    "brand": "ChildLife童年时光",
+                    "iconurl": "https://timgs-v1.tongtongmall.com/4540293a337d4054a8fa082b6c390c24?imageView2/4/quality/30",
+                    "initial": "C"
+                },
+                {
+                    "brandid": "019778e5-82b8-4c75-9139-95839d83f037",
+                    "brand": "佳思敏",
+                    "iconurl": "https://timgs-v1.tongtongmall.com/8073d471c693406886d6e8c167284c2d?imageView2/4/quality/30",
+                    "initial": "J"
+                }
+            ]
+        },
+        {
+            "title": "宝宝用品",
+            "titleid": "2661762e-e885-4e31-9209-c21b2e7c0198",
+            "data": [
+                {
+                    "brandid": "3711f4c6-88ed-4720-8b7f-70143d777402",
+                    "brand": "贝亲",
+                    "iconurl": "https://timgs-v1.tongtongmall.com/c15df1af269f4ac291894181d096c13c?imageView2/4/quality/30",
+                    "initial": "B"
+                },
+                {
+                    "brandid": "40d4f112-7dd0-40c0-839c-010448ba0928",
+                    "brand": "Comotomo可么多么",
+                    "iconurl": "https://timgs-v1.tongtongmall.com/8e5a208ac0434605bcb78163f974e71d?imageView2/4/quality/30",
+                    "initial": "C"
+                },
+                {
+                    "brandid": "a4346af0-d09a-422e-b95a-530fdf49469e",
+                    "brand": "麦肯齐",
+                    "iconurl": "https://timgs-v1.tongtongmall.com/3179baefd6194abd9835fbfea8985144?imageView2/4/quality/30",
+                    "initial": "M"
+                }
+            ]
+        },
+        {
+            "title": "孕产专区",
+            "titleid": "4106761c-7c67-47d8-9b75-788422536d92",
+            "data": [
+                {
+                    "brandid": "c486789e-b024-4a67-bb0c-f3734d26a678",
+                    "brand": "澳佳宝",
+                    "iconurl": "https://timgs-v1.tongtongmall.com/5e85edcbd9fa4d4eae9abf8820c95dcb?imageView2/4/quality/30",
+                    "initial": "A"
+                },
+                {
+                    "brandid": "919225c2-acbb-4f84-b092-06e2582631e6",
+                    "brand": "铁元",
+                    "iconurl": "https://timgs-v1.tongtongmall.com/800b18a982814a43b89f8988e1bd057e?imageView2/4/quality/30",
+                    "initial": "T"
+                },
+                {
+                    "brandid": "3c41a8b9-c0b0-4a83-bde1-43728649afde",
+                    "brand": "佰澳朗德",
+                    "iconurl": "https://timgs-v1.tongtongmall.com/c456b688e9024a20823e047d062c33fc?imageView2/4/quality/30",
+                    "initial": "B"
+                }
+            ]
+        },
+        {
+            "title": "美妆个护",
+            "titleid": "2b6cb3e1-a114-46c9-9e65-9fa5471d9c6e",
+            "data": [
+                {
+                    "brandid": "80bae6bb-06ab-42e9-b95d-4266015ed4b1",
+                    "brand": "兰芝",
+                    "iconurl": "https://timgs-v1.tongtongmall.com/3f878777801c4be3b502a9e7d2b44a5b?imageView2/4/quality/30",
+                    "initial": "L"
+                },
+                {
+                    "brandid": "f660333e-6502-4c72-b331-a5b8abedf52a",
+                    "brand": "雅诗兰黛",
+                    "iconurl": "https://timgs-v1.tongtongmall.com/bd4f3ccab4d5426eb27f23bb263f7bbe?imageView2/4/quality/30",
+                    "initial": "Y"
+                },
+                {
+                    "brandid": "1b5edae6-178f-4c5c-8bde-82035922af0b",
+                    "brand": "兰蔻",
+                    "iconurl": "https://timgs-v1.tongtongmall.com/fcd5913d49804e8e917366e204751309?imageView2/4/quality/30",
+                    "initial": "L"
+                },
+                {
+                    "brandid": "1578b855-4191-4150-b8ba-6cf5ea4089b8",
+                    "brand": "香奈儿",
+                    "iconurl": "https://timgs-v1.tongtongmall.com/c763e8c8e5cf454f9aa81f0a2e325abf?imageView2/4/quality/30",
+                    "initial": "X"
+                },
+                {
+                    "brandid": "c0f98494-4db4-4702-abdc-c7874cc2147b",
+                    "brand": "蜜丝佛陀",
+                    "iconurl": "https://timgs-v1.tongtongmall.com/c97ff4c8c81a4bfaa52f3ab0769ae14e?imageView2/4/quality/30",
+                    "initial": "M"
+                },
+                {
+                    "brandid": "e0b625ad-c600-4f93-bd5b-0ce50045182f",
+                    "brand": "希思黎",
+                    "iconurl": "https://timgs-v1.tongtongmall.com/1f031b9eaaf145eeb57b209de516552e?imageView2/4/quality/30",
+                    "initial": "X"
+                },
+                {
+                    "brandid": "c65d4fe7-6834-4ff1-87d6-79e470e73756",
+                    "brand": "Boots小黄瓜",
+                    "iconurl": "https://timgs-v1.tongtongmall.com/9e96e864b1ac4dacbba84dacaf64558a?imageView2/4/quality/30",
+                    "initial": "B"
+                },
+                {
+                    "brandid": "3efeae15-1723-401a-a8dd-83330084327a",
+                    "brand": "施巴",
+                    "iconurl": "https://timgs-v1.tongtongmall.com/60f6db7d33054c15b2d257f77ff1934d?imageView2/4/quality/30",
+                    "initial": "S"
+                },
+                {
+                    "brandid": "0cb9ca44-1ff8-4297-b9b1-5bfcb36de669",
+                    "brand": "SK-II",
+                    "iconurl": "https://timgs-v1.tongtongmall.com/b1db57fbe33948d990768147a651afc3?imageView2/4/quality/30",
+                    "initial": "S"
+                }
+            ]
+        },
+        {
+            "title": "营养保健",
+            "titleid": "c5da0b62-3eb1-4e59-ac5d-93210f05b291",
+            "data": [
+                {
+                    "brandid": "31cacca4-fb10-40dd-879f-504d4fc5d42a",
+                    "brand": "医食同源",
+                    "iconurl": "https://timgs-v1.tongtongmall.com/9e4cc7ceb95c4a10a2b1ae50baeca6b5?imageView2/4/quality/30",
+                    "initial": "Y"
+                },
+                {
+                    "brandid": "24edb2db-471d-442a-ac1a-2f291a7ec4f1",
+                    "brand": "立喜乐",
+                    "iconurl": "https://timgs-v1.tongtongmall.com/2904040997fd4e528e7b90f0fc6efa30?imageView2/4/quality/30",
+                    "initial": "L"
+                },
+                {
+                    "brandid": "1c93eb2f-f27a-461e-acf1-311df376fee1",
+                    "brand": "Healthy Care",
+                    "iconurl": "https://timgs-v1.tongtongmall.com/49682f040aed46f18534d7555f72d9b6?imageView2/4/quality/30",
+                    "initial": "H"
+                },
+                {
+                    "brandid": "130c12ce-9eb5-4fa9-84b0-01b59ba6d8da",
+                    "brand": "Hydrodol",
+                    "iconurl": "https://timgs-v1.tongtongmall.com/51f5ba64106e4ee79483e8b19f7260cc?imageView2/4/quality/30",
+                    "initial": "H"
+                },
+                {
+                    "brandid": "f31b1ce3-5d16-4585-a63f-1a05444362f0",
+                    "brand": "秘之杰",
+                    "iconurl": "https://timgs-v1.tongtongmall.com/edffbe1fcdb94a3ea3a2c081bf5d2bfe?imageView2/4/quality/30",
+                    "initial": "B"
+                },
+                {
+                    "brandid": "19025daf-5b91-498f-9821-f29a5a33fe09",
+                    "brand": "三橡树",
+                    "iconurl": "https://timgs-v1.tongtongmall.com/1b12ba41b93442a78719c6050108a9a4?imageView2/4/quality/30",
+                    "initial": "S"
+                }
+            ]
+        },
+        {
+            "title": "居家日化",
+            "titleid": "aba3e92f-a549-4e62-b9b6-7bec438963a9",
+            "data": [
+                {
+                    "brandid": "aa429555-281c-42cd-85aa-d3b55e68c2f2",
+                    "brand": "大公鸡管家",
+                    "iconurl": "https://timgs-v1.tongtongmall.com/48070938eb4148179a4b7aa6bbeaffc4?imageView2/4/quality/30",
+                    "initial": "D"
+                },
+                {
+                    "brandid": "8d5fe9f6-a095-49d9-b779-630201b8e948",
+                    "brand": "皓乐齿",
+                    "iconurl": "https://timgs-v1.tongtongmall.com/065b143acf334983951406f38f3846f2?imageView2/4/quality/30",
+                    "initial": "H"
+                },
+                {
+                    "brandid": "bc71708e-de39-43a0-9a13-93e65ebf629b",
+                    "brand": "爱茉莉",
+                    "iconurl": "https://timgs-v1.tongtongmall.com/98000159d3d648f6b1d90d98d7b9be24?imageView2/4/quality/30",
+                    "initial": "A"
+                },
+                {
+                    "brandid": "c36df6fa-ecfc-4987-83cd-7eb4be688de2",
+                    "brand": "Goat Soap",
+                    "iconurl": "https://timgs-v1.tongtongmall.com/584d2e7b0713414bbce6081c3b8e2ce1?imageView2/4/quality/30",
+                    "initial": "G"
+                },
+                {
+                    "brandid": "bcf2892c-d40d-4961-b735-daaf87af016c",
+                    "brand": "爱敬AEKYUNG",
+                    "iconurl": "https://timgs-v1.tongtongmall.com/5981928694d24aeea889d3d5e933fea8?imageView2/4/quality/30",
+                    "initial": "A"
+                },
+                {
+                    "brandid": "5d6e60dc-da2d-422a-9e02-176402ea216f",
+                    "brand": "狮王",
+                    "iconurl": "https://timgs-v1.tongtongmall.com/54272d0a0e604ec08d5c9907c3b9e768?imageView2/4/quality/30",
+                    "initial": "S"
+                },
+                {
+                    "brandid": "89d796b3-0980-4a99-b33b-4a96d5724672",
+                    "brand": "小林制药",
+                    "iconurl": "https://timgs-v1.tongtongmall.com/d41fa1377ca94f78a8673bbac293eeec?imageView2/4/quality/30",
+                    "initial": "X"
+                },
+                {
+                    "brandid": "a0bd65bb-72b3-4b1b-92fb-9198fe9c2546",
+                    "brand": "LG",
+                    "iconurl": "https://timgs-v1.tongtongmall.com/99399177552444188c047c6a790ff809?imageView2/4/quality/30",
+                    "initial": "L"
+                },
+                {
+                    "brandid": "93d56916-b3fc-4919-913b-92ab1ad22588",
+                    "brand": "Mane''nTail箭牌",
+                    "iconurl": "https://timgs-v1.tongtongmall.com/9562a26f0fa74b66af3ac8873e31ec2c?imageView2/4/quality/30",
+                    "initial": "M"
+                }
+            ]
+        }
+    ]
+}

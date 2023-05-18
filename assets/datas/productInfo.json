@@ -1,0 +1,76 @@
+{
+    "sequence": "34235",
+    "productid": "8b51f575-441a-4b0c-806d-26f7a88f69a4",
+    "goodsid": "4b12bde3-e69d-4e10-843b-206fec09199a",
+    "commission": "0.0",
+    "goodstype": "",
+    "iscanbuy": "1",
+    "goodsname": "美国加州宝宝金盏花 镇静保湿面霜57g",
+    "goodsrecordname": "美国加州宝宝金盏花 镇静保湿面霜57g",
+    "goodsdesc": "温和呵护，为宝宝娇嫩的肌肤建立一层保护膜",
+    "goodstradestate": "2",
+    "goodsactivity": "1",
+    "predictinfo": {
+        "predictstarttime": "",
+        "predictendtime": "",
+        "overtime": "",
+        "price": "",
+        "finalprice": "",
+        "finaltime": "",
+        "second": "0"
+    },
+    "taxes": "",
+    "ishowinvite": "0",
+    "placedelivery": "空港E贸易仓",
+    "purchasenum": "0",
+    "praiserate": "0",
+    "stock": "",
+    "oncebuylimit": "0",
+    "time": "20230428135526",
+    "goodsurl": [
+        {
+            "url": "https://timgs-v1.tongtongmall.com/70058451ed704adcac827e1baf4d00a2?imageView2/4/quality/30"
+        },
+        {
+            "url": "https://timgs-v1.tongtongmall.com/870f5fcb1bfc4a0d95ae7301979b1d17?imageView2/4/quality/30"
+        },
+        {
+            "url": "https://timgs-v1.tongtongmall.com/f79132a30a224aa9af8ce13bc894b576?imageView2/4/quality/30"
+        }
+    ],
+    "goodsstandard": [
+        {
+            "gid": "4b12bde3-e69d-4e10-843b-206fec09199a",
+            "contain": [],
+            "isattention": "0",
+            "stock": "55",
+            "ishowstock": "0",
+            "price": "158.00",
+            "productcodenum": "2012784",
+            "marketprice": "",
+            "purchasenum": "0",
+            "goodsstate": "1",
+            "deliveryprice": "",
+            "ourprice": "",
+            "mainimage": "",
+            "goodsname": "美国加州宝宝金盏花 镇静保湿面霜57g",
+            "xg": "0",
+            "inviteprice": "158.0",
+            "xscx": null
+        }
+    ],
+    "goodsstandardele": [],
+    "goodsbrand": {
+        "brandid": "8319a9cd-0c4d-44d6-b29d-46d265eee99a",
+        "brandname": "加州宝宝 CALIFORNIA BABY",
+        "country": "美国",
+        "branddescription": "",
+        "brandurl": "",
+        "countryimg": "https://timgs-v1.tongtongmall.com/58e5e2cd19684262ad64d1005efea3bb?imageView2/4/quality/30"
+    },
+    "showshops": 0,
+    "shopsid": "1",
+    "iscoupon": 0,
+    "video": "",
+    "buyflow": ""
+}

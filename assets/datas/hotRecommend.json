@@ -1,0 +1,58 @@
+{
+    "list": [
+        {
+            "iconurl": "https://timgs-v1.tongtongmall.com/c1421f6bc1fc49f2810aa6eb69112ad5?imageView2/4/quality/30",
+            "title": "晒不黑",
+            "action": {
+                "type": "1",
+                "link": "category",
+                "parameter": "dc857343-2fbb-45df-85f3-ca185025b0d8"
+            }
+        },
+        {
+            "iconurl": "https://timgs-v1.tongtongmall.com/16ea3a22cbd04d0c83b0030bae42b9e6?imageView2/4/quality/30",
+            "title": "好气质",
+            "action": {
+                "type": "1",
+                "link": "category",
+                "parameter": "8fa5963e-f4a6-43a1-86aa-fdf7bc7bf108"
+            }
+        },
+        {
+            "iconurl": "https://timgs-v1.tongtongmall.com/6436fed53902411e9b27c27bab1fd23c?imageView2/4/quality/30",
+            "title": "爱我家",
+            "action": {
+                "type": "1",
+                "link": "category",
+                "parameter": "0a0c9b0e-e412-4a13-baa6-91fd937151ee"
+            }
+        },
+        {
+            "iconurl": "https://timgs-v1.tongtongmall.com/6b09b633503e4618a57a84f58fb311e3?imageView2/4/quality/30",
+            "title": "不脱发",
+            "action": {
+                "type": "1",
+                "link": "category",
+                "parameter": "112c7ab1-5be2-4130-97de-d7dda3676341"
+            }
+        },
+        {
+            "iconurl": "https://timgs-v1.tongtongmall.com/4a6666395fbc40139e17408a3263abd7?imageView2/4/quality/30",
+            "title": "尿不湿",
+            "action": {
+                "type": "1",
+                "link": "category",
+                "parameter": "8104dbf3-8c91-4214-ae30-dff32d8f59fc"
+            }
+        },
+        {
+            "iconurl": "https://timgs-v1.tongtongmall.com/d6fb293241974deab8f38165a95e85f2?imageView2/4/quality/30",
+            "title": "好气色",
+            "action": {
+                "type": "1",
+                "link": "category",
+                "parameter": "31be157a-dd7f-498b-a798-49870745a9d9"
+            }
+        }
+    ]
+}

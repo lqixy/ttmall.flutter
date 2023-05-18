@@ -1,0 +1,35 @@
+{
+    "isuse": "1",
+    "list": [
+        {
+            "pickid": "1be3b2d2-4015-4dfa-af9c-9673490131ea",
+            "pickname": "通通优品-泰国国家馆店",
+            "pickaddress": "河南省郑州市经济开发区 (管城回族区)中大门",
+            "pickphone": "13838109410",
+            "remark": "周一至周日  9:00-17:30",
+            "map": {
+                "imgurl": "https://timgs-v1.tongtongmall.com/500b12cd53204bd995306bd3542318cb?imageView2/4/quality/30"
+            },
+            "isdefault": "0",
+            "user": {
+                "name": "王一二三",
+                "phone": "18888888888"
+            }
+        },
+        {
+            "pickid": "afcd9bc2-c139-43a0-a160-c544a6e5c6f2",
+            "pickname": "通通优品-金水万达店",
+            "pickaddress": "河南省郑州市金水区农科路与花园路交叉口向西300米万达金水金街2-101",
+            "pickphone": "0371-55356305",
+            "remark": "周一至周日 10:00-21:30",
+            "map": {
+                "imgurl": "https://timgs-v1.tongtongmall.com/d77fece2a20e4888a558809b46f0e1f5?imageView2/4/quality/30"
+            },
+            "isdefault": "0",
+            "user": {
+                "name": "王一二三",
+                "phone": "18888888888"
+            }
+        }
+    ]
+}
