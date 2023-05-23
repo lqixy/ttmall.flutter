@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/services.dart';
+import 'package:ttmall/models/api/api_response.dart';
 import 'package:ttmall/models/products/api/api_productinfo_distributioninfo_request.dart';
 import 'package:ttmall/models/products/api/api_productinfo_image_request.dart';
 import 'package:ttmall/models/products/api/api_productinfo_request.dart';
@@ -53,9 +54,41 @@ class ProductRepository {
     return jsonMap.map((e) => ProdetailImageModel.fromJson(e)).toList();
   }
 
-  // Future<ProdetailCommentModel> getComment() async {
-  //   var jsonStr =
-  //       await rootBundle.loadString('assets/datas/prodetailComments.json');
-  //   return ProdetailCommentModel.fromJson(json.decode(jsonStr));
-  // }
+  Future<ApiResponseV2> getResponse(String goodsId) async {
+    // var jsonStr = await rootBundle.loadString('assets/datas/productInfo.json');
+    // return ProductInfoModel.fromJson(json.decode(jsonStr));
+
+    const String endpoint = '/product/product-info-ver2';
+    var request = ApiProductInfoRequest(goodsId);
+    var response = await HttpUtil().getAsync(endpoint, input: request);
+    return response;
+  }
+
+  Future<ApiResponseV2> getServicesResponse(String goodsId) async {
+    const String endpoint = '/product/distributioninfo';
+    var request = ApiProductInfoDistributionInfoRequest(goodsId);
+    return await HttpUtil().postAsync(endpoint, request);
+
+    // return ReceiptServiceModel.fromJson(response.data);
+  }
+
+  Future<ApiResponseV2> getGoodsResponse(String goodsId) async {
+    const String endpoint = '/product/recommend-goods-goodsdetail';
+    var request = ApiRecommendGoodsRequest(goodsId);
+    var response = await HttpUtil().getAsync(endpoint, input: request);
+
+    return response;
+    // return ProductInfoRecommendGoodsModel.fromJson(response.data);
+    // var jsonStr =
+    //     await rootBundle.loadString('assets/datas/recommendGoods.json');
+    // List<dynamic> jsonMap = json.decode(jsonStr);
+    // return jsonMap.map((e) => GoodsModel.fromJson(e)).toList();
+  }
+
+  Future<ApiResponseV2> getProdetailImagesResponse(String goodsId) async {
+    const String endpoint = '/product/prodetail-img';
+    var request = ApiProductInfoImageRequest(goodsId);
+    var response = await HttpUtil().getAsync(endpoint, input: request);
+    return response;
+  }
 }

@@ -1,3 +1,5 @@
+import 'package:ttmall/utils/app_extensions.dart';
+
 import '../promotion/free_model.dart';
 
 class CartModel {
@@ -6,11 +8,16 @@ class CartModel {
   List<CartShopsModel>? list;
   List<CartDetail>? detail;
 
+  double? get realPay => total! - coupon!;
+
   CartModel({this.total, this.coupon, this.list, this.detail});
 
   CartModel.fromJson(Map<String, dynamic> json) {
-    total = double.parse(json['total']);
-    coupon = double.parse(json['coupon']);
+    String totalStr = json['total'];
+
+    total = totalStr.convertToDouble();
+    String couponStr = json['coupon'];
+    coupon = couponStr.convertToDouble();
     if (json['list'] != null) {
       list = <CartShopsModel>[];
       json['list'].forEach((v) {

@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:ttmall/bloc/navigator/navigator_bloc.dart';
+import 'package:ttmall/services/jsp_util.dart';
+import 'package:ttmall/shared/dependencies.dart';
+import 'package:ttmall/utils/uidata.dart';
 
 import '../../../shared/custom_button_widget.dart';
 import '../../../shared/custom_cached_network_image_widget.dart';
@@ -10,53 +14,57 @@ class EmptyCartWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var authToken = JSpUtil.instance.getString(UIData.authToken);
+    var visible = authToken == null || authToken.isEmpty;
     return Column(
       children: [
-        Container(
-          color: AppConfig.primaryWhite,
-          child: GestureDetector(
-            onTap: () {
-              print('购物车点击登录');
-            },
-            child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 8.sp),
-              height: 40.h,
-              decoration: BoxDecoration(color: AppConfig.primaryColorPink),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    '登录后可保存和同步购物车中商品',
-                    style: AppTextStyle.appTextStyle(
+        Visibility(
+          visible: visible,
+          child: Container(
+            color: AppConfig.primaryWhite,
+            child: GestureDetector(
+              onTap: () {
+                print('购物车点击登录');
+              },
+              child: Container(
+                padding: EdgeInsets.symmetric(horizontal: 8.sp),
+                height: 40.h,
+                decoration: BoxDecoration(color: AppConfig.primaryColorPink),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      '登录后可保存和同步购物车中商品',
+                      style: AppTextStyle.appTextStyle(
+                          color: AppConfig.primaryBackgroundColorRed,
+                          size: 14.sp),
+                    ),
+                    // CustomButtonWidget(
+                    //     height: 24.h, width: 70.w, title: '登录', onTap: () {}),
+                    Container(
+                      height: 24.h,
+                      width: 70.w,
+                      decoration: BoxDecoration(
                         color: AppConfig.primaryBackgroundColorRed,
-                        size: 14.sp),
-                  ),
-                  // CustomButtonWidget(
-                  //     height: 24.h, width: 70.w, title: '登录', onTap: () {}),
-                  Container(
-                    height: 24.h,
-                    width: 70.w,
-                    decoration: BoxDecoration(
-                      color: AppConfig.primaryBackgroundColorRed,
-                      borderRadius: BorderRadius.circular(14),
-                    ),
-                    child: Center(
-                      child: Text(
-                        '登录',
-                        style: TextStyle(
-                            fontSize: 14.sp,
-                            color: AppConfig.primaryWhite,
-                            fontWeight: FontWeight.w500),
+                        borderRadius: BorderRadius.circular(14),
                       ),
-                    ),
-                  )
-                ],
+                      child: Center(
+                        child: Text(
+                          '登录',
+                          style: TextStyle(
+                              fontSize: 14.sp,
+                              color: AppConfig.primaryWhite,
+                              fontWeight: FontWeight.w500),
+                        ),
+                      ),
+                    )
+                  ],
+                ),
               ),
             ),
           ),
         ),
-        Visibility(
-          visible: false,
+        Center(
           child: Column(
             children: [
               SizedBox(
@@ -80,7 +88,9 @@ class EmptyCartWidget extends StatelessWidget {
                   borderRadius: 30,
                   fontSize: 16.sp,
                   onTap: () {
-                    print('去购物喽');
+                    // print('去购物喽');
+                    BlocProvider.of<NavigatorBloc>(context)
+                        .add(NavigatorToHomeEvent(context));
                   }),
             ],
           ),

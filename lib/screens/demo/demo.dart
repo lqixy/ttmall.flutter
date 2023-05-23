@@ -1,96 +1,119 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:get_it/get_it.dart';
 
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:ttmall/services/jsp_util.dart';
+import 'package:ttmall/shared/custom_badge_widget.dart';
 
 import 'package:ttmall/shared/custom_button_widget.dart';
 import 'package:ttmall/shared/dependencies.dart';
 
-class DemoScreen extends StatefulWidget {
+class DemoScreen extends StatelessWidget {
   const DemoScreen({super.key});
-
-  @override
-  State<DemoScreen> createState() => _DemoScreenState();
-}
-
-class _DemoScreenState extends State<DemoScreen> {
-  final ItemScrollController _itemScrollController = ItemScrollController();
-
-  late final TextEditingController _controller =
-      TextEditingController(text: '1');
-  @override
-  void initState() {
-    super.initState();
-    // _controller = TextEditingController(text: '1');
-  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: Column(
-          children: [
-            TextField(
-              textAlign: TextAlign.center,
-              controller: _controller,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                CustomButtonWidget(
-                    height: 46.h,
-                    width: 46.w,
-                    title: '-',
-                    onTap: () {
-                      var countStr = _controller.text;
-                      var count = int.tryParse(countStr);
-                      if (count == null || count <= 1) {
-                        _controller.text = '1';
-                      } else {
-                        _controller.text = '${count - 1}';
-                      }
-                      // _controller.text = '-';
-                    }),
-                CustomButtonWidget(
-                    height: 46.h,
-                    width: 46.w,
-                    title: '+',
-                    onTap: () {
-                      var countStr = _controller.text;
-                      var count = int.tryParse(countStr);
-                      if (count == null || count < 1) {
-                        _controller.text = '1';
-                      } else {
-                        _controller.text = '${count + 1}';
-                      }
-                      // _controller.text = '-';
-                    }),
-                CustomButtonWidget(
-                    height: 46.h,
-                    width: 46.w,
-                    title: 'save',
-                    onTap: () {
-                      JSpUtil.instance.setString('count', _controller.text);
-                      // _controller.text = '-';
-                    }),
-                CustomButtonWidget(
-                    height: 46.h,
-                    width: 46.w,
-                    title: 'get',
-                    onTap: () {
-                      var count = JSpUtil.instance.getString(
-                        'count',
-                      );
-                      print(count); // _controller.text = '-';
-                    }),
-              ],
-            ),
-          ],
+      appBar: AppBar(
+        title: const Text('Connectivity Checker'),
+      ),
+      body: Center(
+        child: CustomBadgeWidget(
+          2,
+          height: 15.h,
+          width: 15.w,
+          fontSize: 10.sp,
         ),
       ),
     );
   }
 }
+
+// class DemoScreen extends StatefulWidget {
+//   const DemoScreen({super.key});
+
+//   @override
+//   State<DemoScreen> createState() => _DemoScreenState();
+// }
+
+// class _DemoScreenState extends State<DemoScreen> {
+//   final ItemScrollController _itemScrollController = ItemScrollController();
+
+//   late final TextEditingController _controller =
+//       TextEditingController(text: '1');
+//   @override
+//   void initState() {
+//     super.initState();
+//     // _controller = TextEditingController(text: '1');
+//   }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       body: SafeArea(
+//         child: Column(
+//           children: [
+//             TextField(
+//               textAlign: TextAlign.center,
+//               controller: _controller,
+//             ),
+//             Row(
+//               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//               children: [
+//                 CustomButtonWidget(
+//                     height: 46.h,
+//                     width: 46.w,
+//                     title: '-',
+//                     onTap: () {
+//                       var countStr = _controller.text;
+//                       var count = int.tryParse(countStr);
+//                       if (count == null || count <= 1) {
+//                         _controller.text = '1';
+//                       } else {
+//                         _controller.text = '${count - 1}';
+//                       }
+//                       // _controller.text = '-';
+//                     }),
+//                 CustomButtonWidget(
+//                     height: 46.h,
+//                     width: 46.w,
+//                     title: '+',
+//                     onTap: () {
+//                       var countStr = _controller.text;
+//                       var count = int.tryParse(countStr);
+//                       if (count == null || count < 1) {
+//                         _controller.text = '1';
+//                       } else {
+//                         _controller.text = '${count + 1}';
+//                       }
+//                       // _controller.text = '-';
+//                     }),
+//                 CustomButtonWidget(
+//                     height: 46.h,
+//                     width: 46.w,
+//                     title: 'save',
+//                     onTap: () {
+//                       JSpUtil.instance.setString('count', _controller.text);
+//                       // _controller.text = '-';
+//                     }),
+//                 CustomButtonWidget(
+//                     height: 46.h,
+//                     width: 46.w,
+//                     title: 'get',
+//                     onTap: () {
+//                       var count = JSpUtil.instance.getString(
+//                         'count',
+//                       );
+//                       print(count); // _controller.text = '-';
+//                     }),
+//               ],
+//             ),
+//           ],
+//         ),
+//       ),
+//     );
+//   }
+// }
 
 // Scaffold(
 //       backgroundColor: AppConfig.primaryWhite,

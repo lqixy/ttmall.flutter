@@ -15,3 +15,17 @@ class Custom10SizedboxWidget extends StatelessWidget {
     );
   }
 }
+
+class Custom5SizedboxWidget extends StatelessWidget {
+  const Custom5SizedboxWidget({super.key});
+  // double? height;
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 5.h,
+      child: Container(
+        color: AppConfig.primaryBackgroundColorGrey,
+      ),
+    );
+  }
+}

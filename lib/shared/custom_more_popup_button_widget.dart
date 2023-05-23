@@ -6,7 +6,10 @@ import '../utils/app_config.dart';
 
 class CustomMorePopupButtonWidget extends StatelessWidget {
   //
-  CustomMorePopupButtonWidget({super.key, required this.pageIndex});
+  CustomMorePopupButtonWidget(
+      {super.key,
+      required this.pageIndex,
+      this.menuButtonColor = AppConfig.secondColorGrey});
 
   final List<String> titles = ['首页', '分类', '购物车', '我的'];
   final List<IconData> icons = [
@@ -17,13 +20,14 @@ class CustomMorePopupButtonWidget extends StatelessWidget {
   ];
 
   final int pageIndex;
+  final Color? menuButtonColor;
   // final void Function(int) onSelected;
 
   @override
   Widget build(BuildContext context) {
     return PopupMenuButton(
       elevation: 0,
-      color: AppConfig.secondColorGrey,
+      color: menuButtonColor,
       offset: Offset(0, 40.sp),
       // icon: Icon(Ionicons.arrow_down),
       itemBuilder: (context) {

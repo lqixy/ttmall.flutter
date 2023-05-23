@@ -1,9 +1,11 @@
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get_it/get_it.dart';
 import 'package:nested/nested.dart';
 
 import 'package:ttmall/bloc/cart/cart_bloc.dart';
 
 import 'package:ttmall/bloc/category/brand_bloc.dart';
+import 'package:ttmall/bloc/login/login_bloc.dart';
 import 'package:ttmall/bloc/more_popup/more_popup_bloc.dart';
 import 'package:ttmall/bloc/navigator/navigator_bloc.dart';
 import 'package:ttmall/bloc/orders/confirm/order_confirm_bloc.dart';
@@ -15,6 +17,7 @@ import 'package:ttmall/repositories/cart/cart_repository.dart';
 import 'package:ttmall/repositories/category/brand_repository.dart';
 import 'package:ttmall/repositories/category/category_repository.dart';
 import 'package:ttmall/repositories/comments/comments_repository.dart';
+import 'package:ttmall/repositories/login/login_repository.dart';
 import 'package:ttmall/repositories/orders/order_confirm_repository.dart';
 import 'package:ttmall/repositories/products/product_repository.dart';
 import 'package:ttmall/repositories/recommend/recommend_repository.dart';
@@ -51,6 +54,16 @@ void main() {
   GetIt locator = GetIt.instance;
   _registerRepositories(locator);
   JSpUtil.instance.init();
+
+  ErrorWidget.builder = (details) {
+    return Container(
+      alignment: Alignment.center,
+      child: Text(
+        'Error\n${details.exception}',
+      ),
+    );
+  };
+
   runApp(const MyApp());
 }
 
@@ -64,6 +77,7 @@ class MyApp extends StatelessWidget {
       builder: (context, child) => MultiBlocProvider(
           providers: _getProviders,
           child: MaterialApp(
+            builder: FToastBuilder(),
             initialRoute: RouteConfig.Home,
             routes: _getRoutes,
             debugShowCheckedModeBanner: false,
@@ -76,13 +90,13 @@ class MyApp extends StatelessWidget {
     return {
       '/': (context) => const HomeScreen(),
       '/cart': (context) => const CartScreen(),
-      '/profile': (context) => const ProfileScreen(),
+      '/profile': (context) => ProfileScreen(),
       '/place': (context) => const PlaceScreen(),
       // '/product': (context) => const ProductScreen(''),
-      '/login': (context) => const LoginScreen(),
+      '/login': (context) => LoginScreen(),
       '/category': (context) => const CategoryScreen(),
       '/search': (context) => const SearchScreen(),
-      '/demo': (context) => const DemoScreen(),
+      '/demo': (context) => DemoScreen(),
       RouteConfig.OrderConfirm: (context) => const OrderConfirmScreen(),
     };
   }
@@ -134,6 +148,9 @@ class MyApp extends StatelessWidget {
       BlocProvider<NavigatorBloc>(
         create: (context) => NavigatorBloc(),
       ),
+      BlocProvider<LoginBloc>(
+        create: (context) => LoginBloc(),
+      ),
     ];
   }
 }
@@ -159,5 +176,8 @@ void _registerRepositories(GetIt locator) {
 
   locator.registerLazySingleton<TopicRepository>(() => TopicRepository());
 
+  locator.registerLazySingleton<LoginRepository>(
+    () => LoginRepository(),
+  );
   // locator.registerLazySingleton<HttpService>(() => HttpService());
 }

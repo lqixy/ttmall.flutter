@@ -75,14 +75,14 @@ class BottomNavbarWidget extends StatelessWidget {
                 iconData: Icons.person_outline,
                 title: '我的',
               ),
-              NavbarItem(
-                  title: 'demo',
-                  onTap: () {
-                    BlocProvider.of<BottomNavBloc>(context).add(
-                        BottomNavToPageEvent(
-                            context: context, routeName: RouteConfig.Demo));
-                  },
-                  iconData: Icons.more)
+              // NavbarItem(
+              //     title: 'demo',
+              //     onTap: () {
+              //       BlocProvider.of<BottomNavBloc>(context).add(
+              //           BottomNavToPageEvent(
+              //               context: context, routeName: RouteConfig.Demo));
+              //     },
+              //     iconData: Icons.more)
             ],
           ),
         );

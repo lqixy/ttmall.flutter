@@ -20,3 +20,10 @@ class CartErrorState extends CartState {
   final String msg;
   const CartErrorState(this.msg);
 }
+
+class CartCountLoadingState extends CartState {}
+
+class CartCountState extends CartState {
+  final int count;
+  const CartCountState(this.count);
+}

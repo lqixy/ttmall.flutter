@@ -1,17 +1,28 @@
+import 'dart:async';
+
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get_it/get_it.dart';
+import 'package:ttmall/bloc/navigator/navigator_bloc.dart';
 
 import 'package:ttmall/bloc/products/comments_bloc.dart';
 import 'package:ttmall/bloc/products/product_bloc.dart';
 import 'package:ttmall/models/products/prodetail_comment_model.dart';
 import 'package:ttmall/models/products/prodetail_image_model.dart';
+import 'package:ttmall/repositories/cart/cart_repository.dart';
 
 import 'package:ttmall/screens/products/widgets/product_info_tabview_widget.dart';
 import 'package:ttmall/screens/products/widgets/product_tabbar_widget.dart';
+import 'package:ttmall/shared/custom_badge_widget.dart';
+import 'package:ttmall/shared/custom_error_widget.dart';
 import 'package:ttmall/shared/custom_loading_circle_widget.dart';
 import 'package:ttmall/shared/dependencies.dart';
 import 'package:ttmall/utils/app_config.dart';
 import 'package:ttmall/utils/app_extensions.dart';
+import '../../bloc/cart/cart_bloc.dart';
 import '../../shared/custom_cached_network_image_widget.dart';
+import '../../shared/custom_toast_widget.dart';
+import '../../utils/route_config.dart';
 
 class ProductScreen extends StatelessWidget {
   final String goodsId;
@@ -24,89 +35,211 @@ class ProductScreen extends StatelessWidget {
 
     return DefaultTabController(
       length: 3,
-      child: BlocBuilder<ProductBloc, ProductState>(
-        builder: (context, state) {
-          var isVisibility = false;
-          if (state is ProductLoadedState) {
-            var curState = state;
-            isVisibility = curState.model.goodsstandard!
-                .any((element) => element.stock != 0);
-          }
-
-          return Scaffold(
-            backgroundColor: AppConfig.primaryWhite,
-            appBar: AppBar(
-              title: const ProductTabBarWidget(),
-              elevation: 0,
-              backgroundColor: AppConfig.primaryWhite,
-              iconTheme: IconThemeData(color: AppConfig.primaryTextColorBlack),
-            ),
-            body: ProductBodyWidget(state),
-            bottomNavigationBar:
-                ProductBottomWidget(isVisibility: isVisibility),
-          );
-        },
+      child: Scaffold(
+        backgroundColor: AppConfig.primaryWhite,
+        appBar: AppBar(
+          title: const ProductTabBarWidget(),
+          elevation: 0,
+          backgroundColor: AppConfig.primaryWhite,
+          iconTheme: IconThemeData(color: AppConfig.primaryTextColorBlack),
+        ),
+        body: SafeArea(child: ProductBodyWidget()),
+        // bottomNavigationBar:
+        //     ProductBottomWidget(isVisibility: isVisibility),
       ),
     );
   }
 }
 
-class ProductBottomWidget extends StatelessWidget {
-  const ProductBottomWidget({
+class ProductBodyWidget extends StatelessWidget {
+  const ProductBodyWidget({
     super.key,
-    this.isVisibility = true,
   });
-
-  final bool isVisibility;
 
   @override
   Widget build(BuildContext context) {
-    return BottomAppBar(
-      elevation: 0,
-      child: Container(
-        height: MediaQuery.of(context).size.height * 0.1,
-        decoration: BoxDecoration(
-            border: Border(
-          top:
-              BorderSide(color: AppConfig.primaryBackgroundColorGrey, width: 1),
-        )),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            Expanded(
-              flex: 1,
-              child: Icon(
-                Icons.sms_outlined,
-                size: 30.sp,
+    return BlocBuilder<ProductBloc, ProductState>(
+      builder: (context, state) {
+        if (state is ProductLoadedState) {
+          var isVisibility =
+              state.model.goodsstandard!.any((element) => element.stock != 0);
+
+          return Stack(
+            children: [
+              TabBarView(children: [
+                ProductInfoTabViewWidget(
+                  state,
+                ),
+                ProductDetailTabViewWidget(
+                  images: state.images,
+                ),
+                ProductCommentsWidget(),
+              ]),
+              // SizedBox(
+              //   height: 20.h,
+              // ),
+              Positioned(
+                bottom: 0,
+                right: 0,
+                left: 0,
+                child: ProductBottomBarWidgetV2(
+                    isVisibility, state.model.goodsid!, state.cartCount),
+              ),
+            ],
+          );
+        } else if (state is ProductErrorState) {
+          return CustomErrorWidget(state.msg);
+        } else {
+          return const CustomLoadingCircleWidget();
+        }
+      },
+    );
+  }
+}
+
+class ProductBottomBarWidgetV2 extends StatefulWidget {
+  ProductBottomBarWidgetV2(
+    this.isVisibility,
+    this.goodsId,
+    this.cartCount, {
+    super.key,
+  });
+
+  final bool isVisibility;
+  final String goodsId;
+  late int cartCount;
+  @override
+  State<ProductBottomBarWidgetV2> createState() =>
+      _ProductBottomBarWidgetV2State();
+}
+
+class _ProductBottomBarWidgetV2State extends State<ProductBottomBarWidgetV2> {
+  final toast = FToast();
+  Timer? _timer;
+
+  void _handleTap() {
+    if (_timer != null && _timer!.isActive) {
+      return;
+    }
+    _addToCart();
+
+    _timer = Timer(const Duration(seconds: 1), () {
+      _timer = null;
+    });
+  }
+
+  void _addToCart() {
+    BlocProvider.of<CartBloc>(context).add(CartInsertEvent(widget.goodsId));
+    // customShowSnackBar(context, '成功加入购物车');
+    toast.showToast(
+        gravity: ToastGravity.CENTER, child: CustomToastWidget('成功加入购物车'));
+    // toast.showToast(
+    //     msg: '成功加入购物车', gravity: ToastGravity.CENTER);
+    _setCartCount();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    toast.init(context);
+  }
+
+  void _setCartCount() {
+    // getCartCount();
+    setState(() {
+      widget.cartCount += 1;
+    });
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: MediaQuery.of(context).size.height * 0.07,
+      decoration: BoxDecoration(
+          color: AppConfig.primaryWhite,
+          border: Border(
+            top: BorderSide(
+                color: AppConfig.primaryBackgroundColorGrey, width: 1),
+          )),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          Expanded(
+            flex: 1,
+            child: Icon(
+              Icons.sms_outlined,
+              // size: 30.sp,
+            ),
+          ),
+          Expanded(
+            flex: 1,
+            child: GestureDetector(
+              onTap: () {
+                BlocProvider.of<NavigatorBloc>(context)
+                    .add(NavigatorPushNamedEvent(
+                  context,
+                  RouteConfig.Cart,
+                ));
+              },
+              child: SizedBox(
+                height: MediaQuery.of(context).size.height,
+                width: MediaQuery.of(context).size.width,
+                // alignment: Alignment.center,
+                // color: Colors.amber,
+                child: Stack(children: [
+                  Container(
+                    alignment: Alignment.center,
+                    child: const Icon(
+                      Icons.shopping_cart_outlined,
+                      // size: 30.sp,
+                    ),
+                  ),
+                  Visibility(
+                    visible: widget.cartCount != 0,
+                    child: Positioned(
+                        top: 0,
+                        right: 10,
+                        child: CustomBadgeWidget(
+                          widget.cartCount,
+                          height: 15.h,
+                          width: 15.w,
+                          fontSize: 10.sp,
+                        )),
+                  )
+                ]),
               ),
             ),
-            Expanded(
-              flex: 1,
-              child: Icon(
-                Icons.shopping_cart_outlined,
-                size: 30.sp,
-              ),
+          ),
+          Visibility(
+            visible: widget.isVisibility,
+            maintainSize: false,
+            child: Expanded(
+              flex: 2,
+              child: Container(
+                  color: AppConfig.primaryBackgroundColorRed,
+                  child: Center(
+                      child: Text(
+                    '立即购买',
+                    style: AppTextStyle.appTextStyle(
+                        color: AppConfig.primaryWhite, size: 16.sp),
+                  ))),
             ),
-            Visibility(
-              visible: isVisibility,
-              maintainSize: false,
-              child: Expanded(
-                flex: 2,
-                child: Container(
-                    color: AppConfig.primaryBackgroundColorRed,
-                    child: Center(
-                        child: Text(
-                      '立即购买',
-                      style: AppTextStyle.appTextStyle(
-                          color: AppConfig.primaryWhite, size: 16.sp),
-                    ))),
-              ),
-            ),
-            Visibility(
-              visible: isVisibility,
-              maintainSize: false,
-              child: Expanded(
-                flex: 2,
+          ),
+          Visibility(
+            visible: widget.isVisibility,
+            maintainSize: false,
+            child: Expanded(
+              flex: 2,
+              child: GestureDetector(
+                onTap: () {
+                  _handleTap();
+                },
                 child: Container(
                     color: AppConfig.primaryTextColorBlack,
                     child: Center(
@@ -117,64 +250,163 @@ class ProductBottomWidget extends StatelessWidget {
                     ))),
               ),
             ),
-            Visibility(
-              visible: !isVisibility,
-              maintainSize: false,
-              child: Expanded(
-                flex: 4,
-                child: Container(
-                    color: AppConfig.primaryColorYellow,
-                    child: Center(
-                        child: Text(
-                      '到货提醒',
-                      style: AppTextStyle.appTextStyle(
-                          size: 16.sp, fw: FontWeight.bold),
-                    ))),
-              ),
+          ),
+          Visibility(
+            visible: !widget.isVisibility,
+            maintainSize: false,
+            child: Expanded(
+              flex: 4,
+              child: Container(
+                  color: AppConfig.primaryColorYellow,
+                  child: Center(
+                      child: Text(
+                    '到货提醒',
+                    style: AppTextStyle.appTextStyle(
+                        size: 16.sp, fw: FontWeight.bold),
+                  ))),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
 }
 
-class ProductBodyWidget extends StatelessWidget {
-  const ProductBodyWidget(
-    this.state, {
-    super.key,
-  });
+// class ProductBottomBarWidget extends StatelessWidget {
+//   const ProductBottomBarWidget(
+//     this.isVisibility,
+//     this.goodsId, {
+//     super.key,
+//   });
 
-  final ProductState state;
-  @override
-  Widget build(BuildContext context) {
-    if (state is ProductLoadingState) {
-      return const CustomLoadingCircleWidget();
-    } else if (state is ProductLoadedState) {
-      var curState = state as ProductLoadedState;
+//   final bool isVisibility;
+//   final String goodsId;
+//   // final int cartCount;
 
-      return TabBarView(children: [
-        ProductInfoTabViewWidget(
-          curState,
-        ),
-        ProductDetailTabViewWidget(
-          images: curState.images,
-        ),
-        ProductCommentsWidget(),
-      ]);
-    } else if (state is ProductErrorState) {
-      var curState = state as ProductErrorState;
-      return Center(
-        child: Text(curState.msg),
-      );
-    } else {
-      return const Center(
-        child: Text('No data'),
-      );
-    }
-    ;
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return BlocBuilder<CartBloc, CartState>(
+//       builder: (context, state) {
+//         var cartCount = 0;
+//         if (state is CartCountState) {
+//           cartCount = state.count;
+//         }
+//         return Container(
+//           height: MediaQuery.of(context).size.height * 0.07,
+//           decoration: BoxDecoration(
+//               color: AppConfig.primaryWhite,
+//               border: Border(
+//                 top: BorderSide(
+//                     color: AppConfig.primaryBackgroundColorGrey, width: 1),
+//               )),
+//           child: Row(
+//             mainAxisAlignment: MainAxisAlignment.spaceAround,
+//             children: [
+//               Expanded(
+//                 flex: 1,
+//                 child: Icon(
+//                   Icons.sms_outlined,
+//                   // size: 30.sp,
+//                 ),
+//               ),
+//               Expanded(
+//                 flex: 1,
+//                 child: GestureDetector(
+//                   onTap: () {
+//                     BlocProvider.of<NavigatorBloc>(context)
+//                         .add(NavigatorPushNamedEvent(
+//                       context,
+//                       RouteConfig.Cart,
+//                     ));
+//                   },
+//                   child: SizedBox(
+//                     height: MediaQuery.of(context).size.height,
+//                     width: MediaQuery.of(context).size.width,
+//                     // alignment: Alignment.center,
+//                     // color: Colors.amber,
+//                     child: Stack(children: [
+//                       Container(
+//                         alignment: Alignment.center,
+//                         child: const Icon(
+//                           Icons.shopping_cart_outlined,
+//                           // size: 30.sp,
+//                         ),
+//                       ),
+//                       Visibility(
+//                         visible: cartCount != 0,
+//                         child: Positioned(
+//                             top: 0,
+//                             right: 10,
+//                             child: CustomBadgeWidget(
+//                               cartCount,
+//                               height: 15.h,
+//                               width: 15.w,
+//                               fontSize: 10.sp,
+//                             )),
+//                       )
+//                     ]),
+//                   ),
+//                 ),
+//               ),
+//               Visibility(
+//                 visible: isVisibility,
+//                 maintainSize: false,
+//                 child: Expanded(
+//                   flex: 2,
+//                   child: Container(
+//                       color: AppConfig.primaryBackgroundColorRed,
+//                       child: Center(
+//                           child: Text(
+//                         '立即购买',
+//                         style: AppTextStyle.appTextStyle(
+//                             color: AppConfig.primaryWhite, size: 16.sp),
+//                       ))),
+//                 ),
+//               ),
+//               Visibility(
+//                 visible: isVisibility,
+//                 maintainSize: false,
+//                 child: Expanded(
+//                   flex: 2,
+//                   child: GestureDetector(
+//                     onTap: () {
+//                       BlocProvider.of<CartBloc>(context)
+//                           .add(CartInsertEvent(goodsId));
+//                       customShowSnackBar(context, '成功加入购物车');
+//                     },
+//                     child: Container(
+//                         color: AppConfig.primaryTextColorBlack,
+//                         child: Center(
+//                             child: Text(
+//                           '加入购物车',
+//                           style: AppTextStyle.appTextStyle(
+//                               color: AppConfig.primaryWhite, size: 16.sp),
+//                         ))),
+//                   ),
+//                 ),
+//               ),
+//               Visibility(
+//                 visible: !isVisibility,
+//                 maintainSize: false,
+//                 child: Expanded(
+//                   flex: 4,
+//                   child: Container(
+//                       color: AppConfig.primaryColorYellow,
+//                       child: Center(
+//                           child: Text(
+//                         '到货提醒',
+//                         style: AppTextStyle.appTextStyle(
+//                             size: 16.sp, fw: FontWeight.bold),
+//                       ))),
+//                 ),
+//               ),
+//             ],
+//           ),
+//         );
+//       },
+//     );
+//   }
+// }
 
 class ProductCommentsWidget extends StatefulWidget {
   const ProductCommentsWidget({super.key});
@@ -278,15 +510,7 @@ class _ProductCommentsWidgetState extends State<ProductCommentsWidget> {
                         return ProductCommentsItemWidget(
                             model: state.models[index]);
                       }),
-                  //     SingleChildScrollView(
-                  //   controller: _scrollController,
-                  //   child: Column(
-                  //     children: state.model.list!
-                  //         .map((e) => ProductCommentsItemWidget(model: e))
-                  //         .toList(),
-                  //   ),
-                  // ),
-                )
+                ),
               ],
             );
           case BlocStatus.error:
@@ -306,95 +530,6 @@ class _ProductCommentsWidgetState extends State<ProductCommentsWidget> {
               ),
             );
         }
-
-        // if (state.status == BlocStatus.loaded) {
-        //   if (state.models.isNotEmpty) {
-        //     return Column(
-        //       children: [
-        //         Expanded(
-        //             flex: 1,
-        //             child: Padding(
-        //               padding: const EdgeInsets.all(16.0),
-        //               child: Row(
-        //                 children: state.buttonlist
-        //                     .map(
-        //                       (e) => GestureDetector(
-        //                         onTap: () {
-        //                           // print('click type: ${e.type}');
-        //                         },
-        //                         child: Container(
-        //                           margin: const EdgeInsets.only(
-        //                             left: 8,
-        //                           ),
-        //                           height: 35.h,
-        //                           width: 90.w,
-        //                           decoration: BoxDecoration(
-        //                               color: state.type == e.type
-        //                                   ? AppConfig.primaryColorPink
-        //                                   : AppConfig
-        //                                       .primaryBackgroundColorGrey),
-        //                           child: Center(
-        //                             child: Text(
-        //                               e.name!,
-        //                               style: TextStyle(
-        //                                   color: state.type == e.type
-        //                                       ? AppConfig
-        //                                           .primaryBackgroundColorRed
-        //                                       : AppConfig
-        //                                           .primaryTextColorBlack),
-        //                             ),
-        //                           ),
-        //                         ),
-        //                       ),
-        //                     )
-        //                     .toList(),
-        //               ),
-        //             )),
-        //         Expanded(
-        //           flex: 9,
-        //           child: ListView.builder(
-        //               controller: _scrollController,
-        //               itemCount: state.models.length,
-        //               itemBuilder: (context, index) {
-        //                 return ProductCommentsItemWidget(
-        //                     model: state.models[index]);
-        //               }),
-        //           //     SingleChildScrollView(
-        //           //   controller: _scrollController,
-        //           //   child: Column(
-        //           //     children: state.model.list!
-        //           //         .map((e) => ProductCommentsItemWidget(model: e))
-        //           //         .toList(),
-        //           //   ),
-        //           // ),
-        //         )
-        //       ],
-        //     );
-        //   } else {
-        //     return Center(
-        //       child: Column(
-        //         children: [
-        //           CustomCachedNetworkImageWidget(
-        //               fit: BoxFit.cover,
-        //               height: 77.h,
-        //               width: 88.w,
-        //               imageUrl: 'https://timgs-v1.tongtongmall.com/009eb1c5'),
-        //           Text(
-        //             '这里空空如也~',
-        //             style: AppTextStyle.appTextStyle(
-        //                 AppConfig.primaryTextColorBlack, 20.sp),
-        //           ),
-        //         ],
-        //       ),
-        //     );
-        //   }
-        // } else if (state is CommentsErrorState) {
-        //   return Center(
-        //     child: Text(state.msg),
-        //   );
-        // } else {
-        //   return const CustomLoadingCircleWidget();
-        // }
       },
     );
   }
@@ -660,9 +795,19 @@ class ProductDetailTabViewWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Column(
-        children: images
-            .map((e) => CustomCachedNetworkImageWidget(imageUrl: e.url!))
-            .toList(),
+        children: [
+          Column(
+            children: images
+                .map((e) => CustomCachedNetworkImageWidget(imageUrl: e.url!))
+                .toList(),
+          ),
+          SizedBox(
+            height: 30.h,
+          ),
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.1,
+          ),
+        ],
       ),
     );
   }

@@ -40,7 +40,7 @@ class OrderConfirmScreen extends StatelessWidget {
             onPressed: () {
               _showDialog(context);
             },
-            icon: Icon(Icons.arrow_back_ios)),
+            icon: const Icon(Icons.arrow_back_ios)),
       ),
       body: SafeArea(
         child: Container(

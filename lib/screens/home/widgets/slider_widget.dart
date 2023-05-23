@@ -10,13 +10,11 @@ class HomeSliderWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: MediaQuery.of(context).size.width,
       child: BlocBuilder<HomeBloc, HomeState>(
         builder: (context, state) {
-          if (state is HomeLoadingState) {
-            return CustomLoadingCircleWidget();
-          } else if (state is HomeLoadedState) {
+          if (state is HomeLoadedState) {
             // Future.delayed(Duration(seconds: 1));
             return CustomSliderWidget(
               state.model.adlist!
@@ -27,7 +25,7 @@ class HomeSliderWidget extends StatelessWidget {
               width: MediaQuery.of(context).size.width,
             );
           } else {
-            return Text('No data');
+            return const CustomLoadingCircleWidget();
           }
         },
       ),

@@ -1,7 +1,7 @@
 import 'package:intl/intl.dart';
 
 extension StringExtension on String {
-  DateTime? stringToDateTime() {
+  DateTime? convertToDateTime() {
     if (isEmpty) return null;
 
     String year = substring(0, 4);
@@ -39,6 +39,14 @@ extension StringExtension on String {
     return result ?? 0;
   }
 
+  double convertToDouble() {
+    if (isEmpty) {
+      return 0;
+    }
+    var result = double.tryParse(this);
+    return result ?? 0;
+  }
+
   bool isAllEnglish() {
     for (var codePoint in runes) {
       if (!_isEnglishCodePoint(codePoint)) {
@@ -51,6 +59,18 @@ extension StringExtension on String {
   bool _isEnglishCodePoint(int codePoint) {
     return ((codePoint >= 0x41 && codePoint <= 0x5a) ||
         (codePoint >= 0x61 && codePoint <= 0x7a));
+  }
+
+  bool isValidPhoneNumber() {
+    if (isEmpty || length != 11) {
+      return false;
+    }
+    RegExp regExp = RegExp(
+      r'^1[3456789]\d{9}$',
+      caseSensitive: true,
+      multiLine: false,
+    );
+    return regExp.hasMatch(this);
   }
 }
 
@@ -77,11 +97,33 @@ extension StringNullExtension on String? {
     return this!.convertToInt();
   }
 
+  double convertToDouble() {
+    if (this == null || this!.isEmpty) {
+      return 0;
+    }
+    return this!.convertToDouble();
+  }
+
   bool isAllEnglish() {
     if (this == null || this!.isEmpty) {
       return false;
     }
     return this!.isAllEnglish();
+  }
+
+  bool isValidPhoneNumber() {
+    if (this == null || this!.isEmpty) {
+      return false;
+    }
+
+    return this!.isValidPhoneNumber();
+  }
+
+  DateTime? convertToDateTime() {
+    if (this == null || this!.isEmpty) {
+      return null;
+    }
+    return this!.convertToDateTime();
   }
 }
 

@@ -1,24 +1,15 @@
-import 'package:ttmall/generated/json/base/json_field.dart';
-import 'package:ttmall/generated/json/api_response.g.dart';
-import 'dart:convert';
-
-@JsonSerializable()
 class ApiResponse<T> {
   int? code;
   String? msg;
-  T? data;
+  T data;
 
-  ApiResponse();
+  bool get success => code == 1100;
 
-  factory ApiResponse.fromJson(Map<String, dynamic> json) =>
-      $ApiResponseFromJson<T>(json);
-
-  Map<String, dynamic> toJson() => $ApiResponseToJson(this);
-
-  @override
-  String toString() {
-    return jsonEncode(this);
-  }
+  ApiResponse({
+    required this.code,
+    required this.msg,
+    required this.data,
+  });
 }
 
 class ApiResponseV2 {

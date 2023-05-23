@@ -57,12 +57,12 @@ class CommentModel {
     cid = json['cid'];
     cc = json['cc'];
     String ctStr = json['ct'];
-    ct = ctStr.stringToDateTime();
+    ct = ctStr.convertToDateTime();
     clevel = double.parse(json['clevel']);
     cuser = json['cuser'];
     cimg = json['cimg'];
     String buyTimeStr = json['buytime'];
-    buytime = buyTimeStr.stringToDateTime();
+    buytime = buyTimeStr.convertToDateTime();
     if (json['curls'] != null) {
       curls = <Curls>[];
       json['curls'].forEach((v) {

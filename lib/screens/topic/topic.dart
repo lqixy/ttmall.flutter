@@ -1,3 +1,4 @@
+import 'package:ionicons/ionicons.dart';
 import 'package:ttmall/bloc/products/product_bloc.dart';
 import 'package:ttmall/bloc/topic/topic_bloc.dart';
 import 'package:ttmall/models/recommend/recommend_model.dart';
@@ -47,48 +48,49 @@ class TopicScreen extends StatelessWidget {
               actions: [CustomMorePopupButtonWidget(pageIndex: -1)],
             ),
             backgroundColor: AppConfig.primaryColorBlue,
-            body: SingleChildScrollView(
-              child: Column(
-                children: [
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.3,
-                    width: MediaQuery.of(context).size.width,
-                    child: CustomCachedNetworkImageWidget(
-                      imageUrl: state.model.posterimg!,
-                      fit: BoxFit.fill,
+            body: Stack(children: [
+              SingleChildScrollView(
+                child: Column(
+                  children: [
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.3,
+                      width: MediaQuery.of(context).size.width,
+                      child: CustomCachedNetworkImageWidget(
+                        imageUrl: state.model.posterimg!,
+                        fit: BoxFit.fill,
+                      ),
                     ),
-                  ),
-                  // Visibility(
-                  //   visible: largeTags.isEmpty,
-                  //   child: Container(
-                  //     height: MediaQuery.of(context).size.height * 0.08,
-                  //     width: MediaQuery.of(context).size.width,
-                  //     color: AppConfig.primaryWhite,
-                  //     child: SingleChildScrollView(
-                  //       scrollDirection: Axis.horizontal,
-                  //       child: Row(
-                  //         mainAxisAlignment: MainAxisAlignment.start,
-                  //         children: recommendTags
-                  //             .map((e) => Container(
-                  //                 alignment: Alignment.center,
-                  //                 margin: EdgeInsets.symmetric(horizontal: 8.0),
-                  //                 padding: EdgeInsets.symmetric(horizontal: 8),
-                  //                 child: Text(
-                  //                   e.tagname!,
-                  //                   style: AppTextStyle.appTextStyle(
-                  //                     size: 16.sp,
-                  //                   ),
-                  //                 )))
-                  //             .toList(),
-                  //       ),
-                  //     ),
-                  //   ),
-                  // ),
-                  TopicLargeImageWidget(largeTags),
-                  TopicRecommendWidget(recommendTags),
-                ],
+                    TopicLargeImageWidget(largeTags),
+                    TopicRecommendWidget(recommendTags),
+                  ],
+                ),
               ),
-            ),
+              Positioned(
+                  left: 10,
+                  bottom: MediaQuery.of(context).size.height * 0.07,
+                  child: Opacity(
+                    opacity: 0.9,
+                    child: GestureDetector(
+                      onTap: () {
+                        print('goto cart');
+                      },
+                      child: Container(
+                        alignment: Alignment.center,
+                        height: 50.h,
+                        width: 50.w,
+                        // color: AppConfig.secondBlack,
+                        decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: AppConfig.secondBlack),
+                        child: Icon(
+                          Ionicons.cart,
+                          color: AppConfig.primaryWhite,
+                          size: 25.sp,
+                        ),
+                      ),
+                    ),
+                  ))
+            ]),
           );
         } else if (state is TopicErrorState) {
           return Scaffold(
@@ -209,7 +211,31 @@ class TopicRecommendWidget extends StatelessWidget {
                                         fontSize: 10.sp,
                                         onTap: () {
                                           if (curProduct.stock! > 0) {
-                                            print('add cart');
+                                            // print('add cart');
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(SnackBar(
+                                                    padding: EdgeInsets.only(
+                                                        bottom: MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .height *
+                                                            0.4),
+                                                    duration:
+                                                        Duration(seconds: 2),
+                                                    behavior: SnackBarBehavior
+                                                        .floating,
+                                                    content: Container(
+                                                      alignment:
+                                                          Alignment.center,
+                                                      child: Text(
+                                                        '成功加入购物车',
+                                                        style: AppTextStyle
+                                                            .appTextStyle(
+                                                                size: 10.sp,
+                                                                color: AppConfig
+                                                                    .primaryWhite),
+                                                      ),
+                                                    )));
                                           }
                                         })),
                               ],

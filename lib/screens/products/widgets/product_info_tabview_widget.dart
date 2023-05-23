@@ -55,7 +55,10 @@ class ProductInfoTabViewWidget extends StatelessWidget {
             state.goods.list!,
           ),
           SizedBox(
-            height: 20.h,
+            height: 30.h,
+          ),
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.07,
           ),
         ],
       ),

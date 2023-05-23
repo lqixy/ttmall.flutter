@@ -12,21 +12,31 @@ class ProductInitial extends ProductState {}
 class ProductLoadingState extends ProductState {}
 
 class ProductErrorState extends ProductState {
-  String msg;
-  ProductErrorState({this.msg = ''});
+  final String msg;
+  const ProductErrorState(this.msg);
 }
 
 class ProductLoadedState extends ProductState {
-  ProductInfoModel model;
-  ReceiptServiceModel serviceModel;
-  ProductInfoRecommendGoodsModel goods;
-  List<ProdetailImageModel> images;
+  final ProductInfoModel model;
+  final ReceiptServiceModel serviceModel;
+  final ProductInfoRecommendGoodsModel goods;
+  final List<ProdetailImageModel> images;
+  // final ApiCartCountResponse cartCount;
+  final int cartCount;
   // ProdetailCommentModel prodetailCommentModel;
-  ProductLoadedState({
-    required this.model,
-    required this.serviceModel,
-    required this.goods,
-    required this.images,
-    // required this.prodetailCommentModel
-  });
+  const ProductLoadedState(
+    this.model,
+    this.serviceModel,
+    this.goods,
+    this.images,
+    this.cartCount,
+    //   {
+    //   // required this.model,
+    //   // required this.serviceModel,
+    //   // required this.goods,
+    //   // required this.images,
+
+    //   // required this.prodetailCommentModel
+    // }
+  );
 }
