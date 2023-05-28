@@ -9,7 +9,7 @@ class CustomMorePopupButtonWidget extends StatelessWidget {
   CustomMorePopupButtonWidget(
       {super.key,
       required this.pageIndex,
-      this.menuButtonColor = AppConfig.secondColorGrey});
+      this.menuButtonColor = AppConfig.secondBackgroundColorGrey});
 
   final List<String> titles = ['首页', '分类', '购物车', '我的'];
   final List<IconData> icons = [

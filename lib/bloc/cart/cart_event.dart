@@ -21,12 +21,10 @@ class CartInsertEvent extends CartEvent {
 }
 
 class CartUpdateEvent extends CartEvent {
-  final int count;
-  final String itemId;
-  const CartUpdateEvent(this.itemId, this.count);
-}
-
-class CartCountEvent extends CartEvent {
+  final List<ApiCartGoodsImte> goods;
   // final int count;
-  // const CartCountEvent(this.count);
+  // final String itemId;
+  // final int operateType;
+  // const CartUpdateEvent(this.itemId, this.count, this.operateType);
+  const CartUpdateEvent(this.goods);
 }

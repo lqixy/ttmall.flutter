@@ -7,8 +7,4 @@ abstract class ProfileEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class ProfileHiddenEvent extends ProfileEvent {
-  bool hidden;
-
-  ProfileHiddenEvent({this.hidden = true});
-}
+class ProfileLoadEvent extends ProfileEvent {}

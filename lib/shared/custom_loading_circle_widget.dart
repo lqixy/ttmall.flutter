@@ -9,10 +9,12 @@ class CustomLoadingCircleWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SpinKitFadingCircle(
-      color: AppConfig.primaryBackgroundColorRed,
-      size: 40.sp,
-      // controller: ,
+    return Center(
+      child: SpinKitFadingCircle(
+        color: AppConfig.primaryBackgroundColorRed,
+        size: 40.sp,
+        // controller: ,
+      ),
     );
   }
 }

@@ -14,7 +14,8 @@ class CustomButtonWidget extends StatelessWidget {
       this.backgroundColor = AppConfig.primaryBackgroundColorRed,
       this.fontColor = AppConfig.primaryWhite,
       this.border,
-      this.margin});
+      this.margin,
+      this.fw = FontWeight.bold});
 
   final double? height;
   final double? width;
@@ -28,6 +29,7 @@ class CustomButtonWidget extends StatelessWidget {
   final Color? backgroundColor;
   final Color? fontColor;
   final Border? border;
+  final FontWeight? fw;
 
   final EdgeInsetsGeometry? margin;
 
@@ -51,7 +53,7 @@ class CustomButtonWidget extends StatelessWidget {
                 fontSize: fontSize,
                 color: fontColor,
                 decoration: TextDecoration.none,
-                fontWeight: FontWeight.bold),
+                fontWeight: fw),
           ),
         ),
       ),

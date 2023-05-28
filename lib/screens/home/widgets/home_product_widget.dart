@@ -1,4 +1,6 @@
 import 'package:ttmall/bloc/navigator/navigator_bloc.dart';
+import 'package:ttmall/screens/topic/topic.dart';
+import 'package:ttmall/shared/custom_error_widget.dart';
 import 'package:ttmall/shared/dependencies.dart';
 
 import 'package:ttmall/shared/custom_cached_network_image_widget.dart';
@@ -33,6 +35,8 @@ class HomeProductWidget extends StatelessWidget {
                       ))
                   .toList(),
             );
+          } else if (state is HomeErrorState) {
+            return CustomErrorWidget(state.msg);
           } else {
             return const CustomLoadingCircleWidget();
           }
@@ -57,8 +61,10 @@ class HomeProductItemWidget extends StatelessWidget {
           GestureDetector(
             onTap: () {
               var topicCode = items![0].link.getContent('=');
-              BlocProvider.of<NavigatorBloc>(context)
-                  .add(NavigatorToTopicEvent(topicCode, context));
+              BlocProvider.of<NavigatorBloc>(context).add(NavigatorPushEvent(
+                context,
+                TopicScreen(topicCode),
+              ));
             },
             child: CustomCachedNetworkImageWidget(
                 height: MediaQuery.of(context).size.height * 0.33,

@@ -153,7 +153,7 @@ class CartStoreModel {
 }
 
 class CartGoodsModel {
-  String? type;
+  int? type;
   bool? ischeck;
   String? entryid;
   List<String>? hasentryid;
@@ -189,13 +189,14 @@ class CartGoodsModel {
       this.praiserate});
 
   CartGoodsModel.fromJson(Map<String, dynamic> json) {
-    type = json['type'];
+    String typeStr = json['type'];
+    type = typeStr.convertToInt();
     ischeck = json['ischeck'] == '1';
     entryid = json['entryid'];
     hasentryid = json['hasentryid'].cast<String>();
     itemid = json['itemid'];
-
-    purchasenum = int.parse(json['purchasenum']);
+    String purchasenumStr = json['purchasenum'];
+    purchasenum = purchasenumStr.convertToInt();
     if (json['free'] != null) {
       free = <FreeModel>[];
       json['free'].forEach((v) {
@@ -207,7 +208,8 @@ class CartGoodsModel {
     goodsname = json['goodsname'];
     goodsdesc = json['goodsdesc'];
     sellprice = json['sellprice'];
-    stock = int.parse(json['stock']);
+    String stockStr = json['stock'];
+    stock = stockStr.convertToInt();
     limitbuy = json['limitbuy'];
     oncelimitbuy = json['oncelimitbuy'];
     praiserate = json['praiserate'];

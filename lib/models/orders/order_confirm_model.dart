@@ -75,6 +75,7 @@ class OrderShopsModel {
   String? shopsname;
   String? subtotal;
   String? count;
+  String? remark;
   List<OrderStoreModel>? goods;
   List<OrderCouponModel>? couponlist;
   List<OrderDiscountDetailModel>? detail;
@@ -92,6 +93,7 @@ class OrderShopsModel {
     this.couponlist,
     this.detail,
     this.groupinfo,
+    this.remark,
     // this.nvs
   });
 
@@ -100,6 +102,7 @@ class OrderShopsModel {
     shopsname = json['shopsname'];
     subtotal = json['subtotal'];
     count = json['count'];
+    remark = json['remark'];
     if (json['goods'] != null) {
       goods = <OrderStoreModel>[];
       json['goods'].forEach((v) {
@@ -135,6 +138,7 @@ class OrderShopsModel {
     data['shopsname'] = this.shopsname;
     data['subtotal'] = this.subtotal;
     data['count'] = this.count;
+    data['remark'] = remark;
     if (this.goods != null) {
       data['goods'] = this.goods!.map((v) => v.toJson()).toList();
     }

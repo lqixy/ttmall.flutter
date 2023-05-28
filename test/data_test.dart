@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:ttmall/models/home/api_request/api_recommend.dart';
 import 'package:ttmall/repositories/recommend/recommend_repository.dart';
+import 'package:ttmall/utils/app_extensions.dart';
 
 void main() {
   test('max', () {
@@ -36,4 +37,23 @@ void main() {
     stopwatch.stop();
     expect(stopwatch.elapsedMilliseconds, lessThan(800));
   });
+
+  // test('getHours', () {
+  //   // var time = '20230526155103'.convertToDateTime();
+  //   // var endTime = DateTime.now();
+
+  //   // var hours = time!.difference(endTime).inHours;
+  //   // expect(hours, 23);
+
+  //   // double dividend = 10;
+  //   // double divisor = 3;
+  //   // double quotient = (dividend / divisor).truncateToDouble();
+  //   // double remainder = dividend % divisor;
+  //   // double result = quotient + (remainder / divisor);
+  //   var payexpire = 82037;
+
+  //   var hours = payexpire / 3600;
+  //   var value = hours.toStringAsFixed(2);
+  //   expect(hours, 22);
+  // });
 }

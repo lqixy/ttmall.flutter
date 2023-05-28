@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
+
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
@@ -28,13 +29,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     on<HomeLoadEvent>(_homeLoadEvent);
 
     on<HomeNavToPlaceEvent>(_navToPlaceEvent);
-
-    // on<HomeNavToProductEvent>(
-    //   (event, emit) {
-    //     Navigator.push(event.context,
-    //         MaterialPageRoute(builder: (context) => ProductScreen(event.id)));
-    //   },
-    // );
   }
 
   FutureOr<void> _homeLoadEvent(event, emit) async {
@@ -42,8 +36,10 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     try {
       final list = await repository.getV4();
       final model = await bannerRepository.getAsync();
-      emit(HomeLoadedState(recommends: list, model: model));
-    } catch (e) {}
+      emit(HomeLoadedState(list, model));
+    } catch (e) {
+      emit(HomeErrorState(e.toString()));
+    }
     // print('load');
   }
 
@@ -56,4 +52,16 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
           ),
         ));
   }
+
+  // FutureOr<void> _checkEvent(
+  //     HomeCheckEvent event, Emitter<HomeState> emit) async {
+  //   var deviceInfo = DeviceInfoPlugin();
+  //   if (Theme.of(event.context).platform == TargetPlatform.android) {
+  //     var androidInfo = await deviceInfo.androidInfo;
+  //     print(androidInfo.model);
+  //   } else if (Theme.of(event.context).platform == TargetPlatform.iOS) {
+  //     var iosInfo = await deviceInfo.iosInfo;
+  //     print(iosInfo.model);
+  //   }
+  // }
 }

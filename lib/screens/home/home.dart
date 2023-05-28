@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ttmall/bloc/home/home_bloc.dart';
 
 import 'package:ttmall/screens/home/widgets/home_menu_widget.dart';
 import 'package:ttmall/screens/home/widgets/home_notices_widget.dart';
@@ -6,6 +7,7 @@ import 'package:ttmall/screens/home/widgets/home_product_widget.dart';
 
 import 'package:ttmall/screens/home/widgets/slider_widget.dart';
 import 'package:ttmall/shared/custom_sizedbox_widget.dart';
+import 'package:ttmall/shared/dependencies.dart';
 
 import '../../utils/app_config.dart';
 import '../bottom/bottom_navbar_widget.dart';
@@ -15,6 +17,7 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // context.read<HomeBloc>().add(HomeCheckEvent(context));
     return Scaffold(
       // appBar: MyAppBar(),
       backgroundColor: AppConfig.primaryWhite,

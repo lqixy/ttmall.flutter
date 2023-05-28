@@ -7,9 +7,26 @@ abstract class NavigatorEvent extends Equatable {
   List<Object> get props => [context];
 }
 
-class NavigatorToTopicEvent extends NavigatorEvent {
-  const NavigatorToTopicEvent(this.topicCode, super.context);
-  final String topicCode;
+// class NavigatorToTopicEvent extends NavigatorEvent {
+//   const NavigatorToTopicEvent(this.topicCode, super.context);
+//   final String topicCode;
+// }
+
+class NavigatorPushEvent extends NavigatorEvent {
+  const NavigatorPushEvent(
+    super.context,
+    this.screenWidget,
+  );
+  final Widget screenWidget;
+}
+
+class NavigatorPopEvent extends NavigatorEvent {
+  const NavigatorPopEvent(super.context);
+}
+
+class NavigatorPopAndPushNamedEvent extends NavigatorEvent {
+  const NavigatorPopAndPushNamedEvent(super.context, this.routeName);
+  final String routeName;
 }
 
 class NavigatorToHomeEvent extends NavigatorEvent {
@@ -18,6 +35,8 @@ class NavigatorToHomeEvent extends NavigatorEvent {
 
 class NavigatorPushNamedEvent extends NavigatorEvent {
   final String routeName;
+  final Object? agruments;
 
-  const NavigatorPushNamedEvent(super.context, this.routeName);
+  const NavigatorPushNamedEvent(super.context, this.routeName,
+      {this.agruments});
 }

@@ -50,12 +50,8 @@ class HttpUtil {
       } else {
         return result;
       }
-    } on AppFriendlyException catch (e) {
-      print(e.message);
-      result.msg = e.message;
-      return result;
     } catch (e) {
-      print(e.toString());
+      // print(e.toString());
       return result;
       // return result;
     }

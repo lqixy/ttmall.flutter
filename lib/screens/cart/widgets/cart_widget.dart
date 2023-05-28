@@ -1,5 +1,7 @@
 import 'package:flutter/services.dart';
 import 'package:ttmall/bloc/navigator/navigator_bloc.dart';
+import 'package:ttmall/models/cart/api/request/api_cart_add_request.dart';
+import 'package:ttmall/models/cart/cart_operate_type.dart';
 import 'package:ttmall/shared/dependencies.dart';
 import 'package:ttmall/utils/route_config.dart';
 
@@ -12,24 +14,77 @@ import '../../../shared/custom_no_data_widget.dart';
 import '../../../utils/app_config.dart';
 
 class CartWidget extends StatefulWidget {
-  const CartWidget(this.model, {super.key});
-  final CartModel model;
+  const CartWidget({super.key});
+
+  // const CartWidget(this.model, {super.key});
+  // final CartModel model;
   @override
   State<CartWidget> createState() => _CartWidgetState();
 }
 
 class _CartWidgetState extends State<CartWidget> {
-  void _showBottomSheet(BuildContext context, CartModel model) {
-    double discountTotal = model.detail!
-        .fold(0, ((previousValue, element) => previousValue + element.value!));
+  @override
+  void initState() {
+    super.initState();
+    context.read<CartBloc>().add(CartLoadEvent());
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    // context.read<CartBloc>().add(CartLoadEvent());
+    return BlocBuilder<CartBloc, CartState>(
+      builder: (context, state) {
+        if (state is CartLoadedState) {
+          return Stack(
+            children: [
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.94,
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: state.model.list!
+                        .map((e) => CartShopsWidget(e))
+                        .toList(),
+                  ),
+                ),
+              ),
+              Positioned(
+                bottom: 0,
+                left: 0,
+                right: 0,
+                child: CartFootWidget(state.model.coupon!, state.model.realPay!,
+                    state.model.total!, state.model.detail!),
+              ),
+            ],
+          );
+        } else if (state is CartErrorState) {
+          return CustomErrorWidget(state.msg);
+        } else {
+          return const CustomLoadingCircleWidget();
+        }
+      },
+    );
+  }
+}
+
+class CartFootWidget extends StatelessWidget {
+  const CartFootWidget(this.coupon, this.realPay, this.total, this.detail,
+      {super.key});
+  // final CartModel model;
+  final List<CartDetail> detail;
+  final double coupon;
+  final double realPay;
+  final double total;
+  void _showBottomSheet(BuildContext context, List<CartDetail> detail) {
+    double discountTotal = detail.fold(
+        0, ((previousValue, element) => previousValue + element.value!));
 
     // List<Widget> details = [];
-    var details = model.detail!
+    var details = detail
         .map((e) => CartDiscountItemWidget(e.label!, '-¥${e.value}'))
         .toList();
     details.insert(
       0,
-      CartDiscountItemWidget('商品总额', '¥${model.total!.toStringAsFixed(2)}'),
+      CartDiscountItemWidget('商品总额', '¥${total!.toStringAsFixed(2)}'),
     );
     details.add(CartDiscountItemWidget(
       '共优惠',
@@ -85,114 +140,95 @@ class _CartWidgetState extends State<CartWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        SizedBox(
-          height: MediaQuery.of(context).size.height * 0.94,
-          child: SingleChildScrollView(
+    return Container(
+      height: MediaQuery.of(context).size.height * 0.06,
+      width: MediaQuery.of(context).size.width,
+      decoration: BoxDecoration(
+          color: AppConfig.primaryWhite,
+          border: Border.all(
+              color: AppConfig.primaryBackgroundColorGrey, width: 0.5)),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Expanded(flex: 1, child: Container()),
+          Expanded(
+            flex: 9,
             child: Column(
-              children:
-                  widget.model.list!.map((e) => CartShopsWidget(e)).toList(),
-            ),
-          ),
-        ),
-        Positioned(
-            bottom: 0,
-            left: 0,
-            right: 0,
-            child: Container(
-              height: MediaQuery.of(context).size.height * 0.06,
-              width: MediaQuery.of(context).size.width,
-              decoration: BoxDecoration(
-                  color: AppConfig.primaryWhite,
-                  border: Border.all(
-                      color: AppConfig.primaryBackgroundColorGrey, width: 0.5)),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Expanded(flex: 1, child: Container()),
-                  Expanded(
-                    flex: 9,
-                    child: Column(
-                      mainAxisAlignment: widget.model.coupon != 0
-                          ? MainAxisAlignment.spaceAround
-                          : MainAxisAlignment.center,
-                      children: [
-                        Row(
-                          children: [
-                            Text(
-                              '合    计:',
-                              style: TextStyle(fontSize: 10.sp),
-                            ),
-                            Text(
-                              '¥${widget.model.realPay}',
-                              style: AppTextStyle.appTextStyle(
-                                  color: AppConfig.primaryBackgroundColorRed,
-                                  size: 14.sp),
-                            )
-                          ],
-                        ),
-                        Visibility(
-                          visible: widget.model.coupon != 0,
-                          child: Row(
-                            children: [
-                              Expanded(
-                                flex: 1,
-                                child: Text(
-                                  '立减: ¥ ${widget.model.coupon}',
-                                  style: TextStyle(fontSize: 10.sp),
-                                ),
-                              ),
-                              Expanded(
-                                flex: 1,
-                                child: GestureDetector(
-                                  onTap: () {
-                                    // print('优惠明细');
-                                    _showBottomSheet(context, widget.model);
-                                  },
-                                  child: Text(
-                                    '优惠明细',
-                                    style: AppTextStyle.appTextStyle(
-                                        color:
-                                            AppConfig.primaryBackgroundColorRed,
-                                        size: 10.sp),
-                                  ),
-                                ),
-                              ),
-                              Expanded(flex: 1, child: Container())
-                            ],
-                          ),
-                        )
-                      ],
+              mainAxisAlignment: coupon != 0
+                  ? MainAxisAlignment.spaceAround
+                  : MainAxisAlignment.center,
+              children: [
+                Row(
+                  children: [
+                    Text(
+                      '合    计:',
+                      style: TextStyle(fontSize: 10.sp),
                     ),
-                  ),
-                  Expanded(
-                    flex: 4,
-                    child: GestureDetector(
-                      onTap: () {
-                        BlocProvider.of<NavigatorBloc>(context).add(
-                            NavigatorPushNamedEvent(
-                                context, RouteConfig.OrderConfirm));
-                      },
-                      child: Container(
-                        alignment: Alignment.center,
-                        height: MediaQuery.of(context).size.height,
-                        decoration: BoxDecoration(
-                            color: AppConfig.primaryBackgroundColorRed),
+                    Text(
+                      '¥$realPay',
+                      style: AppTextStyle.appTextStyle(
+                          color: AppConfig.primaryBackgroundColorRed,
+                          size: 14.sp),
+                    )
+                  ],
+                ),
+                Visibility(
+                  visible: coupon != 0,
+                  child: Row(
+                    children: [
+                      Expanded(
+                        flex: 1,
                         child: Text(
-                          '去结算(0)',
-                          style: AppTextStyle.appTextStyle(
-                              color: AppConfig.primaryWhite, size: 14.sp),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
+                          '立减: ¥ $coupon',
+                          style: TextStyle(fontSize: 10.sp),
                         ),
                       ),
-                    ),
-                  )
-                ],
+                      Expanded(
+                        flex: 1,
+                        child: GestureDetector(
+                          onTap: () {
+                            // print('优惠明细');
+                            _showBottomSheet(context, detail);
+                          },
+                          child: Text(
+                            '优惠明细',
+                            style: AppTextStyle.appTextStyle(
+                                color: AppConfig.primaryBackgroundColorRed,
+                                size: 10.sp),
+                          ),
+                        ),
+                      ),
+                      Expanded(flex: 1, child: Container())
+                    ],
+                  ),
+                )
+              ],
+            ),
+          ),
+          Expanded(
+            flex: 4,
+            child: GestureDetector(
+              onTap: () {
+                BlocProvider.of<NavigatorBloc>(context).add(
+                    NavigatorPushNamedEvent(context, RouteConfig.OrderConfirm));
+              },
+              child: Container(
+                alignment: Alignment.center,
+                height: MediaQuery.of(context).size.height,
+                decoration:
+                    BoxDecoration(color: AppConfig.primaryBackgroundColorRed),
+                child: Text(
+                  '去结算(0)',
+                  style: AppTextStyle.appTextStyle(
+                      color: AppConfig.primaryWhite, size: 14.sp),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
               ),
-            )),
-      ],
+            ),
+          )
+        ],
+      ),
     );
   }
 }
@@ -234,7 +270,7 @@ class _CartShopsWidgetState extends State<CartShopsWidget> {
   bool shopsIsCheck = true;
   bool storeIsCheck = true;
 
-  void _checked(bool value) {
+  void _shopChecked(bool value) {
     setState(() {
       shopsIsCheck = value;
       for (var element in widget.shopModel.list!) {
@@ -243,6 +279,70 @@ class _CartShopsWidgetState extends State<CartShopsWidget> {
         }
       }
     });
+
+    _shopUpdateCart(value);
+    _reloadCart();
+  }
+
+  void _shopUpdateCart(bool value) {
+    List<ApiCartGoodsImte> goods = [];
+
+    for (var element in widget.shopModel.list!) {
+      for (var e in element.data!) {
+        goods.add(_getGoodsItem(e, value));
+      }
+    }
+
+    _updateCart(goods);
+  }
+
+  void _storeChecked(List<CartGoodsModel> storeModel, bool value) {
+    setState(() {
+      for (var element in storeModel) {
+        element.ischeck = value;
+      }
+    });
+    _storeUpdateCart(storeModel, value);
+    _reloadCart();
+  }
+
+  void _storeUpdateCart(List<CartGoodsModel> storeModel, bool value) {
+    var goods = storeModel.map((e) => _getGoodsItem(e, value)).toList();
+    _updateCart(goods);
+  }
+
+  void _itemChecked(CartGoodsModel item, bool value) {
+    setState(() {
+      item.ischeck = value;
+    });
+
+    _updateCart([_getGoodsItem(item, value)]);
+    _reloadCart();
+  }
+
+  void _reloadCart() {
+    context.read<CartBloc>().add(CartLoadEvent());
+  }
+
+  ApiCartGoodsImte _getGoodsItem(CartGoodsModel model, bool value) {
+    // return ApiCartGoodsImte(
+    //     itemid: model.itemid,
+    //     type: model.type,
+    //     buycount: model.purchasenum,
+    //     operatetype: value
+    //         ? CartOperateType.update.index
+    //         : CartOperateType.uncheck.index);
+    return ApiCartGoodsItemUpdate(
+        itemid: model.itemid,
+        type: model.type,
+        buycount: model.purchasenum,
+        operatetype: value
+            ? CartOperateType.update.index
+            : CartOperateType.uncheck.index);
+  }
+
+  void _updateCart(List<ApiCartGoodsImte> goods) {
+    BlocProvider.of<CartBloc>(context).add(CartUpdateEvent(goods));
   }
 
   void _initCheck() {
@@ -278,7 +378,7 @@ class _CartShopsWidgetState extends State<CartShopsWidget> {
                           shape: const CircleBorder(),
                           value: shopsIsCheck,
                           onChanged: (value) {
-                            _checked(value!);
+                            _shopChecked(value!);
                           },
                         )),
                     Expanded(
@@ -324,13 +424,13 @@ class _CartShopsWidgetState extends State<CartShopsWidget> {
                                       value: !storeModel.data!
                                           .any((element) => !element.ischeck!),
                                       onChanged: (value) {
-                                        // _storeChecked(storeModel.data!, value!);
-                                        setState(() {
-                                          for (var element
-                                              in storeModel.data!) {
-                                            element.ischeck = value;
-                                          }
-                                        });
+                                        _storeChecked(storeModel.data!, value!);
+                                        // setState(() {
+                                        //   for (var element
+                                        //       in storeModel.data!) {
+                                        //     element.ischeck = value;
+                                        //   }
+                                        // });
                                       },
                                     ),
                                   ),
@@ -373,11 +473,8 @@ class _CartShopsWidgetState extends State<CartShopsWidget> {
                                                           const CircleBorder(),
                                                       value: goods.ischeck,
                                                       onChanged: (value) {
-                                                        setState(() {
-                                                          // isCheck = value!;
-                                                          goods.ischeck =
-                                                              value!;
-                                                        });
+                                                        _itemChecked(
+                                                            goods, value!);
                                                       },
                                                     )),
                                                 Expanded(
@@ -405,18 +502,23 @@ class _CartShopsWidgetState extends State<CartShopsWidget> {
                                                               )),
                                                           Expanded(
                                                               flex: 2,
-                                                              child: Column(
-                                                                // mainAxisAlignment:
-                                                                //     MainAxisAlignment.spaceBetween,
-                                                                children: [
-                                                                  Expanded(
-                                                                    flex: 1,
-                                                                    child:
-                                                                        Padding(
-                                                                      padding: const EdgeInsets
-                                                                              .only(
-                                                                          top:
-                                                                              8.0),
+                                                              child: Padding(
+                                                                padding:
+                                                                    const EdgeInsets
+                                                                            .only(
+                                                                        left: 8,
+                                                                        right:
+                                                                            8,
+                                                                        top: 8),
+                                                                child: Column(
+                                                                  crossAxisAlignment:
+                                                                      CrossAxisAlignment
+                                                                          .start,
+                                                                  // mainAxisAlignment:
+                                                                  //     MainAxisAlignment.spaceBetween,
+                                                                  children: [
+                                                                    Expanded(
+                                                                      flex: 1,
                                                                       child:
                                                                           Text(
                                                                         goods
@@ -430,42 +532,41 @@ class _CartShopsWidgetState extends State<CartShopsWidget> {
                                                                                 12.sp),
                                                                       ),
                                                                     ),
-                                                                  ),
-                                                                  Expanded(
-                                                                    flex: 2,
-                                                                    child: Row(
-                                                                      mainAxisAlignment:
-                                                                          MainAxisAlignment
-                                                                              .spaceBetween,
-                                                                      children: [
-                                                                        Text(
-                                                                          goods
-                                                                              .sellprice!,
-                                                                          style: AppTextStyle.appTextStyle(
-                                                                              color: AppConfig.primaryBackgroundColorRed,
-                                                                              size: 12.sp,
-                                                                              fw: FontWeight.bold),
-                                                                        ),
-                                                                        Padding(
-                                                                          padding:
-                                                                              const EdgeInsets.all(8.0),
-                                                                          child:
-                                                                              Column(
-                                                                            children: [
-                                                                              CartCountOperationWidget(goods),
-                                                                              Offstage(
-                                                                                  offstage: goods.stock != 1,
-                                                                                  child: Text(
-                                                                                    '当前库存为1件',
-                                                                                    style: AppTextStyle.appTextStyle(color: AppConfig.primaryBackgroundColorRed, size: 10.sp),
-                                                                                  ))
-                                                                            ],
+                                                                    Expanded(
+                                                                      flex: 2,
+                                                                      child:
+                                                                          Row(
+                                                                        mainAxisAlignment:
+                                                                            MainAxisAlignment.spaceBetween,
+                                                                        children: [
+                                                                          Text(
+                                                                            '¥${goods.sellprice!}',
+                                                                            style: AppTextStyle.appTextStyle(
+                                                                                color: AppConfig.primaryBackgroundColorRed,
+                                                                                size: 12.sp,
+                                                                                fw: FontWeight.bold),
                                                                           ),
-                                                                        ),
-                                                                      ],
+                                                                          Padding(
+                                                                            padding:
+                                                                                const EdgeInsets.all(8.0),
+                                                                            child:
+                                                                                Column(
+                                                                              children: [
+                                                                                CartCountOperationWidget(goods),
+                                                                                Offstage(
+                                                                                    offstage: goods.stock != 1,
+                                                                                    child: Text(
+                                                                                      '当前库存为1件',
+                                                                                      style: AppTextStyle.appTextStyle(color: AppConfig.primaryBackgroundColorRed, size: 10.sp),
+                                                                                    ))
+                                                                              ],
+                                                                            ),
+                                                                          ),
+                                                                        ],
+                                                                      ),
                                                                     ),
-                                                                  ),
-                                                                ],
+                                                                  ],
+                                                                ),
                                                               )),
                                                         ],
                                                       ),
@@ -517,6 +618,22 @@ class _CartCountOperationWidgetState extends State<CartCountOperationWidget> {
     super.dispose();
   }
 
+  void _updateCart(int count, CartOperateType operateType) {
+    List<ApiCartGoodsItemUpdate> goods = [
+      // ApiCartGoodsImte(
+      //     itemid: widget.goods.itemid,
+      //     buycount: count,
+      //     type: widget.goods.type,
+      //     operatetype: operateType.index)
+      ApiCartGoodsItemUpdate(
+          itemid: widget.goods.itemid,
+          buycount: count,
+          type: widget.goods.type,
+          operatetype: operateType.index)
+    ];
+    BlocProvider.of<CartBloc>(context).add(CartUpdateEvent(goods));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -535,8 +652,9 @@ class _CartCountOperationWidgetState extends State<CartCountOperationWidget> {
               }
 
               if (count != null) {
-                BlocProvider.of<CartBloc>(context)
-                    .add(CartUpdateEvent(widget.goods.itemid!, count));
+                // BlocProvider.of<CartBloc>(context)
+                //     .add(CartUpdateEvent(widget.goods.itemid!, count, 1));
+                _updateCart(count, CartOperateType.update);
               }
             },
             // color:  AppConfig.primaryWhite,
@@ -553,6 +671,12 @@ class _CartCountOperationWidgetState extends State<CartCountOperationWidget> {
                 _textEditingController.text = '${count + 1}';
               } else {
                 _textEditingController.text = '99';
+              }
+
+              if (count != null) {
+                // BlocProvider.of<CartBloc>(context)
+                //     .add(CartUpdateEvent(widget.goods.itemid!, count, 1));
+                _updateCart(count, CartOperateType.update);
               }
             },
             onLongPress: () {},

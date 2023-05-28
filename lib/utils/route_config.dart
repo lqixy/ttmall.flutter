@@ -7,5 +7,8 @@ class RouteConfig {
   static const String Search = '/search';
   static const String Demo = '/demo';
   static const String OrderConfirm = '/orderConfirm';
-  // static const String Topic = '/topic';
+  static const String Checkout = '/checkout';
+  static const String OrderLists = '/orderLists';
+  static const String OrderDetail = '/orderDetail';
+  static const String OrderCancel = '/orderCancel';
 }

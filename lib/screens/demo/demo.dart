@@ -1,4 +1,3 @@
-import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:get_it/get_it.dart';
 
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
@@ -7,6 +6,7 @@ import 'package:ttmall/shared/custom_badge_widget.dart';
 
 import 'package:ttmall/shared/custom_button_widget.dart';
 import 'package:ttmall/shared/dependencies.dart';
+import 'package:ttmall/utils/app_config.dart';
 
 class DemoScreen extends StatelessWidget {
   const DemoScreen({super.key});
@@ -17,14 +17,17 @@ class DemoScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Connectivity Checker'),
       ),
-      body: Center(
-        child: CustomBadgeWidget(
-          2,
-          height: 15.h,
-          width: 15.w,
-          fontSize: 10.sp,
-        ),
-      ),
+      // body: Center(
+      //   child: Badge(
+      //     // alignment: AlignmentDirectional.topEnd,
+      //     label: Text('2'),
+      //     child: Container(
+      //         color: AppConfig.primaryBackgroundColorRed,
+      //         // height: MediaQuery.of(context).size.height * 0.06,
+      //         // width: MediaQuery.of(context).size.width * 0.06,
+      //         child: Icon(Icons.person)),
+      //   ),
+      // ),
     );
   }
 }

@@ -45,6 +45,10 @@ class CartRepository {
 
     var response = await HttpUtil().postAsync(endpoint, request);
     // if (response.success) {}
-    return response.success;
+    if (response.success) {
+      return true;
+    } else {
+      throw AppFriendlyException(response.msg!);
+    }
   }
 }

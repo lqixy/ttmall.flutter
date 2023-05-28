@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+
 import 'package:get_it/get_it.dart';
 import 'package:ttmall/bloc/navigator/navigator_bloc.dart';
 
@@ -114,7 +114,7 @@ class ProductBottomBarWidgetV2 extends StatefulWidget {
 }
 
 class _ProductBottomBarWidgetV2State extends State<ProductBottomBarWidgetV2> {
-  final toast = FToast();
+  // final toast = FToast();
   Timer? _timer;
 
   void _handleTap() {
@@ -131,17 +131,26 @@ class _ProductBottomBarWidgetV2State extends State<ProductBottomBarWidgetV2> {
   void _addToCart() {
     BlocProvider.of<CartBloc>(context).add(CartInsertEvent(widget.goodsId));
     // customShowSnackBar(context, '成功加入购物车');
-    toast.showToast(
-        gravity: ToastGravity.CENTER, child: CustomToastWidget('成功加入购物车'));
     // toast.showToast(
-    //     msg: '成功加入购物车', gravity: ToastGravity.CENTER);
+    //     gravity: ToastGravity.CENTER, child: CustomToastWidget('成功加入购物车'));
+
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      duration: const Duration(seconds: 1),
+      behavior: SnackBarBehavior.floating,
+      content: const Text(
+        '成功加入购物车',
+        textAlign: TextAlign.center,
+      ),
+      margin: EdgeInsets.only(bottom: MediaQuery.of(context).size.height * 0.4),
+    ));
+
     _setCartCount();
   }
 
   @override
   void initState() {
     super.initState();
-    toast.init(context);
+    // toast.init(context);
   }
 
   void _setCartCount() {
@@ -200,18 +209,15 @@ class _ProductBottomBarWidgetV2State extends State<ProductBottomBarWidgetV2> {
                       // size: 30.sp,
                     ),
                   ),
-                  Visibility(
-                    visible: widget.cartCount != 0,
-                    child: Positioned(
-                        top: 0,
-                        right: 10,
-                        child: CustomBadgeWidget(
-                          widget.cartCount,
-                          height: 15.h,
-                          width: 15.w,
-                          fontSize: 10.sp,
-                        )),
-                  )
+                  Positioned(
+                      top: 0,
+                      right: 10,
+                      child: CustomBadgeWidget(
+                        widget.cartCount,
+                        height: 15.h,
+                        width: 15.w,
+                        fontSize: 10.sp,
+                      ))
                 ]),
               ),
             ),

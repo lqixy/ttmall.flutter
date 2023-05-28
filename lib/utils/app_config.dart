@@ -3,9 +3,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AppConfig {
   static const Color primaryWhite = Color(0xffffffff);
-  static Color primaryBackgroundColorGrey = Colors.grey[50]!;
+  static Color primaryBackgroundColorGrey = Colors.grey[100]!;
+  // static Color secondColorGrey = Colors.grey[50]!;
   static const Color secondBackgroundColorGrey = Color(0xff777777);
-  static const Color secondColorGrey = Colors.grey;
+  static const Color secondColorGrey = Color(0xffeaeaea);
   static const Color primaryTextColorBlack = Colors.black;
   static Color secondTextColorGery = Colors.grey[800]!;
   static const Color primaryBackgroundColorRed = Color(0xffe32525);
@@ -16,6 +17,13 @@ class AppConfig {
   static Color secondBlack = const Color(0xff3f4446);
   static const Color primaryColorBlue = Color(0xffd8e7ff);
   static const Color toastColorBlack = Color(0xff4e4e4e);
+  static const Color thirdColorGrey = Color(0xff8d8d8d);
+
+  // static const double AppBarTitleSize = 15;
+}
+
+class AppDicConfig {
+  static const String orderCancel = 'OrderCancel';
 }
 
 class AppTextStyle {
@@ -31,6 +39,23 @@ class AppTextStyle {
         fontWeight: fw,
         letterSpacing: letterSpacing,
         decoration: textDecoration);
+  }
+
+  static Text appText(String data,
+      {Color? color = AppConfig.primaryTextColorBlack,
+      double? size,
+      FontWeight? fw = FontWeight.normal,
+      double? letterSpacing,
+      TextDecoration? textDecoration}) {
+    return Text(
+      data,
+      style: TextStyle(
+          color: color,
+          fontSize: size,
+          fontWeight: fw,
+          letterSpacing: letterSpacing,
+          decoration: textDecoration),
+    );
   }
 }
 

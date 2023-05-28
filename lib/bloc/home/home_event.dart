@@ -16,6 +16,11 @@ class HomeNavToPlaceEvent extends HomeEvent {
   const HomeNavToPlaceEvent(this.context, this.placeName);
 }
 
+class HomeCheckEvent extends HomeEvent {
+  final BuildContext context;
+  const HomeCheckEvent(this.context);
+}
+
 // class HomeNavToProductEvent extends HomeEvent {
 //   final BuildContext context;
 //   final String id;

@@ -1,3 +1,8 @@
+import 'package:ttmall/bloc/cart/cart_bloc.dart';
+import 'package:ttmall/bloc/navigator/navigator_bloc.dart';
+import 'package:ttmall/bloc/orders/order_bloc.dart';
+import 'package:ttmall/models/orders/api/request/api_order_submit_request.dart';
+import 'package:ttmall/screens/address/address.dart';
 import 'package:ttmall/shared/custom_button_widget.dart';
 import 'package:ttmall/shared/custom_cached_network_image_widget.dart';
 import 'package:ttmall/shared/custom_error_widget.dart';
@@ -19,7 +24,7 @@ class OrderConfirmScreen extends StatelessWidget {
     showDialog(
         context: context,
         builder: (context) {
-          return CustomDialogView('确认要放弃购买吗?');
+          return const CustomDialogView('确认要放弃购买吗?');
         });
   }
 
@@ -27,6 +32,8 @@ class OrderConfirmScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     context.read<OrderConfirmBloc>().add(OrderConfirmLoadEvent());
     return Scaffold(
+      extendBodyBehindAppBar: true,
+      // backgroundColor: Colors.transparent,
       appBar: AppBar(
         elevation: 0,
         backgroundColor: AppConfig.primaryWhite,
@@ -43,126 +50,139 @@ class OrderConfirmScreen extends StatelessWidget {
             icon: const Icon(Icons.arrow_back_ios)),
       ),
       body: SafeArea(
-        child: Container(
-          height: MediaQuery.of(context).size.height,
-          width: MediaQuery.of(context).size.width,
-          color: AppConfig.primaryBackgroundColorGrey,
-          child: BlocBuilder<OrderConfirmBloc, OrderConfirmState>(
-            builder: (context, state) {
-              if (state is OrderConfirmLoadingState) {
-                return const CustomLoadingCircleWidget();
-              } else if (state is OrderConfirmLoadedState) {
-                return Stack(children: [
-                  SingleChildScrollView(
-                    child: Column(
-                      children: [
-                        SizedBox(
-                          height: 6.h,
-                        ),
-                        // 地址
-                        OrderAddressWidget(state.model.address!),
-                        // 商品
-                        Column(
-                          children: state.model.shops!
-                              .map((e) => OrderShopsWidget(e))
-                              .toList(),
-                        ),
-
-                        // 积分
-                        Container(
-                          color: AppConfig.primaryWhite,
-                          child: Padding(
-                            padding: EdgeInsets.all(8),
-                            child: Column(
-                              children: [
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text('可用${state.model.score}积分抵扣元'),
-                                    Checkbox(
-                                        shape: CircleBorder(),
-                                        value: false,
-                                        onChanged: (value) {})
-                                  ],
-                                ),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text('平台优惠券'),
-                                    Text(
-                                      '${state.model.couponlist!.length}张可用',
-                                      style: AppTextStyle.appTextStyle(
-                                          color: AppConfig
-                                              .primaryBackgroundColorRed,
-                                          size: 12.sp),
-                                    )
-                                  ],
-                                ),
-                              ],
-                            ),
+        child: WillPopScope(
+          onWillPop: () async {
+            return false;
+          },
+          child: Container(
+            height: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.width,
+            color: AppConfig.primaryBackgroundColorGrey,
+            child: BlocBuilder<OrderConfirmBloc, OrderConfirmState>(
+              builder: (context, state) {
+                if (state is OrderConfirmLoadedState) {
+                  return Stack(children: [
+                    SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          SizedBox(
+                            height: 6.h,
                           ),
-                        ),
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.1,
-                        )
-                      ],
-                    ),
-                  ),
-                  Positioned(
-                      bottom: 0,
-                      left: 0,
-                      right: 0,
-                      child: Container(
-                        height: MediaQuery.of(context).size.height * 0.08,
-                        color: AppConfig.primaryWhite,
-                        child: Row(
-                          children: [
-                            Expanded(
-                                flex: 3,
-                                child: Padding(
-                                  padding: const EdgeInsets.only(left: 10),
-                                  child: Row(
+                          // 地址
+                          OrderAddressWidget(state.model.address!),
+                          // 商品
+                          Column(
+                            children: state.model.shops!
+                                .map((e) => OrderShopsWidget(e))
+                                .toList(),
+                          ),
+
+                          // 积分
+                          Container(
+                            color: AppConfig.primaryWhite,
+                            child: Padding(
+                              padding: EdgeInsets.all(8),
+                              child: Column(
+                                children: [
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
                                     children: [
+                                      Text('可用${state.model.score}积分抵扣元'),
+                                      Checkbox(
+                                          shape: CircleBorder(),
+                                          value: false,
+                                          onChanged: (value) {})
+                                    ],
+                                  ),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text('平台优惠券'),
                                       Text(
-                                        '实付款:  ',
-                                        style: AppTextStyle.appTextStyle(
-                                            color: AppConfig.secondColorGrey,
-                                            size: 12.sp),
-                                      ),
-                                      Text(
-                                        '¥${state.model.pay!}',
+                                        '${state.model.couponlist!.length}张可用',
                                         style: AppTextStyle.appTextStyle(
                                             color: AppConfig
                                                 .primaryBackgroundColorRed,
-                                            fw: FontWeight.bold),
-                                      ),
+                                            size: 12.sp),
+                                      )
                                     ],
                                   ),
-                                )),
-                            Expanded(
-                                flex: 2,
-                                child: Container(
-                                  alignment: Alignment.center,
-                                  height: MediaQuery.of(context).size.height,
-                                  color: AppConfig.primaryBackgroundColorRed,
-                                  child: Text(
-                                    '提交订单',
-                                    style: AppTextStyle.appTextStyle(
-                                        color: AppConfig.primaryWhite),
-                                  ),
-                                ))
-                          ],
-                        ),
-                      ))
-                ]);
-              } else if (state is OrderConfirmErrorState) {
-                return CustomErrorWidget(state.msg);
-              } else {
-                return const CustomLoadingCircleWidget();
-              }
-            },
+                                ],
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.1,
+                          )
+                        ],
+                      ),
+                    ),
+                    Positioned(
+                        bottom: 0,
+                        left: 0,
+                        right: 0,
+                        child: Container(
+                          height: MediaQuery.of(context).size.height * 0.06,
+                          color: AppConfig.primaryWhite,
+                          child: Row(
+                            children: [
+                              Expanded(
+                                  flex: 3,
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(left: 10),
+                                    child: Row(
+                                      children: [
+                                        Text(
+                                          '实付款:  ',
+                                          style: AppTextStyle.appTextStyle(
+                                              color:
+                                                  AppConfig.secondTextColorGery,
+                                              size: 12.sp),
+                                        ),
+                                        Text(
+                                          '¥${state.model.pay!}',
+                                          style: AppTextStyle.appTextStyle(
+                                              color: AppConfig
+                                                  .primaryBackgroundColorRed,
+                                              fw: FontWeight.bold),
+                                        ),
+                                      ],
+                                    ),
+                                  )),
+                              Expanded(
+                                  flex: 2,
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      BlocProvider.of<OrderBloc>(context).add(
+                                          OrderGotoSubmitPageEvent(
+                                              context, state.model));
+                                    },
+                                    child: Container(
+                                      alignment: Alignment.center,
+                                      height:
+                                          MediaQuery.of(context).size.height,
+                                      color:
+                                          AppConfig.primaryBackgroundColorRed,
+                                      child: Text(
+                                        '提交订单',
+                                        style: AppTextStyle.appTextStyle(
+                                            color: AppConfig.primaryWhite),
+                                      ),
+                                    ),
+                                  ))
+                            ],
+                          ),
+                        ))
+                  ]);
+                } else if (state is OrderConfirmErrorState) {
+                  return CustomErrorWidget(state.msg);
+                } else {
+                  return const CustomLoadingCircleWidget();
+                }
+              },
+            ),
           ),
         ),
       ),
@@ -271,11 +291,16 @@ class OrderShopsWidget extends StatelessWidget {
                               child: SizedBox(
                                 height: 16.h,
                                 child: TextField(
+                                  onChanged: (value) {
+                                    shops.remark = value;
+                                  },
                                   decoration: InputDecoration(
                                       border: InputBorder.none,
                                       hintText: '选填',
                                       hintStyle: AppTextStyle.appTextStyle(
-                                          size: 10.sp)),
+                                          size: 10.sp,
+                                          color:
+                                              AppConfig.secondTextColorGery)),
                                 ),
                               ),
                             ),
@@ -387,57 +412,65 @@ class OrderAddressWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: AppConfig.primaryWhite,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          CustomCachedNetworkImageWidget(
-              height: 3.h,
-              imageUrl: 'https://timgs-v1.tongtongmall.com/835df526'),
-          Padding(
-            padding:
-                const EdgeInsets.only(left: 10, right: 10, bottom: 8, top: 8),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8),
-                      child: Text(
-                          '${address.name}    ${address.phone.hidePhoneNumber()}'),
-                    ),
-                    Text(
-                      '${address.addr}',
-                      style: AppTextStyle.appTextStyle(
-                          color: AppConfig.secondColorGrey, size: 10.sp),
-                    )
-                  ],
-                ),
-                Icon(
-                  Icons.arrow_forward_ios,
-                  color: AppConfig.primaryBackgroundColorGrey,
-                  size: 16.sp,
-                ),
-              ],
+    return GestureDetector(
+      onTap: () {
+        BlocProvider.of<NavigatorBloc>(context).add(NavigatorPushEvent(
+          context,
+          AddressScreen(),
+        ));
+      },
+      child: Container(
+        color: AppConfig.primaryWhite,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            CustomCachedNetworkImageWidget(
+                height: 3.h,
+                imageUrl: 'https://timgs-v1.tongtongmall.com/835df526'),
+            Padding(
+              padding:
+                  const EdgeInsets.only(left: 10, right: 10, bottom: 8, top: 8),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8),
+                        child: Text(
+                            '${address.name}    ${address.phone.hidePhoneNumber()}'),
+                      ),
+                      Text(
+                        '${address.addr}',
+                        style: AppTextStyle.appTextStyle(
+                            color: AppConfig.secondTextColorGery, size: 10.sp),
+                      )
+                    ],
+                  ),
+                  Icon(
+                    Icons.arrow_forward_ios,
+                    color: AppConfig.secondBackgroundColorGrey,
+                    size: 16.sp,
+                  ),
+                ],
+              ),
             ),
-          ),
-          Container(
-            alignment: Alignment.centerLeft,
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height * 0.03,
-            margin: EdgeInsets.only(left: 8, right: 8, bottom: 20),
-            padding: EdgeInsets.symmetric(horizontal: 8),
-            color: AppConfig.primaryColorPink,
-            child: Text(
-              '收货不便时，可选择上门自提服务！',
-              style: AppTextStyle.appTextStyle(
-                  color: AppConfig.primaryBackgroundColorRed, size: 10.sp),
-            ),
-          )
-        ],
+            Container(
+              alignment: Alignment.centerLeft,
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height * 0.03,
+              margin: EdgeInsets.only(left: 8, right: 8, bottom: 20),
+              padding: EdgeInsets.symmetric(horizontal: 8),
+              color: AppConfig.primaryColorPink,
+              child: Text(
+                '收货不便时，可选择上门自提服务！',
+                style: AppTextStyle.appTextStyle(
+                    color: AppConfig.primaryBackgroundColorRed, size: 10.sp),
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

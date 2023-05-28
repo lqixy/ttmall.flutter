@@ -12,7 +12,14 @@ class HomeInitial extends HomeState {}
 class HomeLoadingState extends HomeState {}
 
 class HomeLoadedState extends HomeState {
-  List<RecommendModel> recommends;
-  IndexBannerModel model;
-  HomeLoadedState({required this.recommends, required this.model});
+  final List<RecommendModel> recommends;
+  final IndexBannerModel model;
+  const HomeLoadedState(this.recommends, this.model);
 }
+
+class HomeErrorState extends HomeState {
+  final String msg;
+  const HomeErrorState(this.msg);
+}
+
+class HomeCheckState extends HomeState {}

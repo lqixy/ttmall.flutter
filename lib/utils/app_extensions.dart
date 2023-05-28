@@ -22,6 +22,14 @@ extension StringExtension on String {
     return replaceRange(3, 7, '****');
   }
 
+  String hideIdCard() {
+    if (length < 18) {
+      return '';
+    }
+
+    return replaceRange(6, 14, '********');
+  }
+
   String getContent(String pattern) {
     if (isEmpty) {
       return '';
@@ -75,12 +83,23 @@ extension StringExtension on String {
 }
 
 extension StringNullExtension on String? {
+  /// 隐藏手机号
+  /// ```
+  /// 18888888888 -> 188****8888
+  /// ```
   String hidePhoneNumber() {
     if (this == null || this!.length < 11) {
       return '';
     }
 
     return this!.hidePhoneNumber();
+  }
+
+  String hideIdCard() {
+    if (this == null || this!.length < 18) {
+      return '';
+    }
+    return this!.hideIdCard();
   }
 
   String getContent(String pattern) {
@@ -126,6 +145,8 @@ extension StringNullExtension on String? {
     return this!.convertToDateTime();
   }
 }
+
+extension IntExtension on int {}
 
 extension DateTimeExtension on DateTime? {
   String convertToString({String pattern = 'yyyy-MM-dd HH:mm:ss'}) {

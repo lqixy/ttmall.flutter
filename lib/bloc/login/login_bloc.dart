@@ -5,6 +5,7 @@ import 'package:ttmall/models/login/api/request/api_login_request.dart';
 import 'package:ttmall/repositories/login/login_repository.dart';
 import 'package:ttmall/services/jsp_util.dart';
 import 'package:ttmall/utils/app_extensions.dart';
+import 'package:ttmall/utils/app_friendly_exception.dart';
 import 'package:ttmall/utils/uidata.dart';
 
 part 'login_event.dart';
@@ -25,6 +26,8 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
               tk: event.tk));
           JSpUtil.instance.setString(UIData.authToken, response.key!);
           emit(LoginLoadedState(response.key!, response.expires));
+        } on AppFriendlyException catch (e) {
+          emit(LoginErrorState(e.message));
         } catch (e) {
           emit(LoginErrorState(e.toString()));
         }
